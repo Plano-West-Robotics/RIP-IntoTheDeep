@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.units.Angle;
 
 public class Hardware {
-    public DcMotorEx fl, fr, bl, br;
+    public DcMotorEx fl, fr, bl, br, horizL, horizR, vertL, vertR;
     public IMU imu;
 
     public OpMode opMode;
@@ -33,26 +33,46 @@ public class Hardware {
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
+        horizL = hardwareMap.get(DcMotorEx.class, "horizontalLeft");
+        horizR = hardwareMap.get(DcMotorEx.class, "horizontalRight");
+        vertL = hardwareMap.get(DcMotorEx.class, "verticalLeft");
+        vertR = hardwareMap.get(DcMotorEx.class, "verticalRight");
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         fr.setDirection(DcMotorSimple.Direction.FORWARD);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
         br.setDirection(DcMotorSimple.Direction.FORWARD);
+        vertL.setDirection(DcMotorSimple.Direction.REVERSE);
+        vertR.setDirection(DcMotorSimple.Direction.FORWARD);
+        horizL.setDirection(DcMotorSimple.Direction.REVERSE);
+        horizR.setDirection(DcMotorSimple.Direction.FORWARD);
 
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        vertL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        vertR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        vertL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        vertR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        horizL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        horizR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        horizL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        horizR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        vertL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        vertR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(
