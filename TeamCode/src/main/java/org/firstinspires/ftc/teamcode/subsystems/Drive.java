@@ -4,7 +4,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 public class Drive {
-    Hardware hardware;
+    private Hardware hardware;
 
     public Drive(Hardware hw) {
         this.hardware = hw;

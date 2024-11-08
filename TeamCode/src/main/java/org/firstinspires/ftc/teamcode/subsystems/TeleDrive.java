@@ -5,8 +5,8 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 public class TeleDrive {
-    Hardware hardware;
-    Drive drive;
+    private Hardware hardware;
+    private Drive drive;
     private double speed;
     private boolean fieldOriented = false;
     private Angle yawOffset = Angle.ZERO;

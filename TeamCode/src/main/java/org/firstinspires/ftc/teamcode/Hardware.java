@@ -82,11 +82,11 @@ public class Hardware {
         claw.setDirection(Servo.Direction.REVERSE);
 
         //            in - out
-        // extendL  0.17 - 0.00, port ch5
-        // extendR  0.15 - 0.32, port eh0
-        extendL.scaleRange(0.00, 0.17);
+        // extendL  0.20 - 0.00, port ch5
+        // extendR  0.12 - 0.32, port eh0
+        extendL.scaleRange(0.00, 0.20);
         extendL.setDirection(Servo.Direction.REVERSE);
-        extendR.scaleRange(0.15, 0.32);
+        extendR.scaleRange(0.12, 0.32);
         extendR.setDirection(Servo.Direction.FORWARD);
 
         //         down - up
