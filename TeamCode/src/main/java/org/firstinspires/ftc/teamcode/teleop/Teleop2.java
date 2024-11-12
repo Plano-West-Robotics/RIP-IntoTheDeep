@@ -50,9 +50,8 @@ public class Teleop2 extends OpModeWrapper {
             }
         }
 
-        if (gamepads.isPressed(Gamepads.Button.GP2_LEFT_BUMPER)) hardware.intake.setPower(1);
-        else if (gamepads.isPressed(Gamepads.Button.GP2_RIGHT_BUMPER)) hardware.intake.setPower(-1);
-        else hardware.intake.setPower(0);
+        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPosition(0);
+        else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPosition(1);
 
         if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.bucketL.setPosition(1);
         else hardware.bucketL.setPosition(0);

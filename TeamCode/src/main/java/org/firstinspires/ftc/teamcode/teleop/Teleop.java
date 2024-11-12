@@ -27,6 +27,7 @@ public class Teleop extends OpModeWrapper {
         drive.setFieldOriented(false);
         time = new DeltaTimer(false);
         grabber = new SimpleGrabber(hardware);
+        hardware.intake.setPosition(1);
     }
 
     @SuppressLint("DefaultLocale")
@@ -59,8 +60,7 @@ public class Teleop extends OpModeWrapper {
         if (gamepads.isPressed(Gamepads.Button.GP2_CROSS)) hardware.bucketL.setPosition(1);
         else hardware.bucketL.setPosition(0);
 
-        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPower(1);
-        else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPower(-1);
-        else hardware.intake.setPower(0);
+        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPosition(0);
+        else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPosition(1);
     }
 }

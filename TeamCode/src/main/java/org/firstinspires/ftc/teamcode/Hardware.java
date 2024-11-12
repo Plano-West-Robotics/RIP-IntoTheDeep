@@ -22,7 +22,7 @@ public class Hardware {
     public Servo claw;
     public Servo extendL, extendR;
     public Servo wristL, wristR;
-    public CRServo intake;
+    public Servo intake;
     public Servo bucketL, bucketR;
     public IMU imu;
 
@@ -59,8 +59,8 @@ public class Hardware {
 
         liftL = hardwareMap.get(DcMotorEx.class, "liftL");
         liftR = hardwareMap.get(DcMotorEx.class, "liftR");
-        liftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -71,7 +71,7 @@ public class Hardware {
         extendR = hardwareMap.get(Servo.class, "extendR");
         wristL = hardwareMap.get(Servo.class, "wristL");
 //        wristR = hardwareMap.get(Servo.class, "wristR");
-        intake = hardwareMap.get(CRServo.class, "intake");
+        intake = hardwareMap.get(Servo.class, "intake");
         bucketL = hardwareMap.get(Servo.class, "bucketL");
 //        bucketR = hardwareMap.get(Servo.class, "bucketR");
 
@@ -92,11 +92,11 @@ public class Hardware {
         //         down - up
         // wristL  0.00 - 0.75, port eh3
         // wristR
-        wristL.scaleRange(0.00, 0.75);
-        wristL.setDirection(Servo.Direction.FORWARD);
+        wristL.scaleRange(0.00, 0.83);
+        wristL.setDirection(Servo.Direction.REVERSE);
 
-        // intake - +1 in, -1 out, port eh5
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        // intake - 0.35-0.65, port eh5
+        intake.scaleRange(0.35, 0.65);
 
         //          down - up
         // bucketL  0.10 - 0.65, port ch3
