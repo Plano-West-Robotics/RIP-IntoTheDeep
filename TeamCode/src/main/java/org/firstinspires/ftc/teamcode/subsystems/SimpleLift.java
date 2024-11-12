@@ -20,13 +20,11 @@ public class SimpleLift {
     }
 
     public boolean isLeftDown() {
-//        return hardware.liftLimitL.isPressed();
-        throw new UnsupportedOperationException("not yet implemented");
+        return hardware.liftLimitL.isPressed();
     }
 
     public boolean isRightDown() {
-//        return hardware.liftLimitR.isPressed();
-        throw new UnsupportedOperationException("not yet implemented");
+        return hardware.liftLimitR.isPressed();
     }
 
     public int leftEncoder() {

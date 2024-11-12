@@ -7,7 +7,7 @@ public class Grabber {
     private SimpleGrabber.State target;
     private double current;
     private boolean busy;
-    private final double RATE = 1.1; // servo units per second
+    private static final double RATE = 1.1; // servo units per second
 
     public Grabber(Hardware hardware) {
         this(hardware, SimpleGrabber.State.BUCKET);

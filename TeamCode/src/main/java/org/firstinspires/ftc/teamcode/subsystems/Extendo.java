@@ -7,7 +7,7 @@ public class Extendo {
     private double target;
     private double current;
     private boolean busy;
-    private final double RATE = 1.0; // servo units per second
+    private static final double RATE = 1.0; // servo units per second
 
     public Extendo(Hardware hardware) {
         this(hardware, 0.0);

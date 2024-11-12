@@ -61,7 +61,6 @@ public class Intake {
 
         switch (this.state) {
             case CONTINUUM:
-                // TODO: this condition is bogus
                 if (this.goingToTarget && this.target > 0 && !this.extendo.isBusy()) {
                     this.goingToTarget = false;
                 }

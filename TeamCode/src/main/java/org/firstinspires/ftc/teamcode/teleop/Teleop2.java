@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleGrabber;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.units.Vector2;
@@ -18,6 +19,7 @@ public class Teleop2 extends OpModeWrapper {
     TeleDrive drive;
     DeltaTimer time;
     Intake intake;
+    Lift lift;
 
     @Override
     public void setup() {
@@ -25,6 +27,7 @@ public class Teleop2 extends OpModeWrapper {
         drive.setFieldOriented(false);
         time = new DeltaTimer(false);
         intake = new Intake(hardware);
+        lift = new Lift(hardware);
     }
 
     @SuppressLint("DefaultLocale")
@@ -53,9 +56,17 @@ public class Teleop2 extends OpModeWrapper {
         if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPosition(0);
         else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPosition(1);
 
-        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.bucketL.setPosition(1);
+        if (gamepads.isPressed(Gamepads.Button.GP2_CIRCLE)) hardware.bucketL.setPosition(1);
         else hardware.bucketL.setPosition(0);
 
+        if (gamepads.justPressed(Gamepads.Button.GP2_DPAD_DOWN)) lift.setTarget(Lift.MIN_TICKS);
+        if (gamepads.justPressed(Gamepads.Button.GP2_DPAD_UP)) lift.setTarget(Lift.MAX_TICKS);
+        if (gamepads.justPressed(Gamepads.Button.GP2_DPAD_LEFT)) lift.setTarget(2200);
+        if (gamepads.justPressed(Gamepads.Button.GP2_DPAD_RIGHT)) lift.setTarget(4200);
+        lift.setPower(gamepads.getAnalogValue(Gamepads.AnalogInput.GP2_RIGHT_STICK_Y));
+        lift.setOverride(gamepads.isPressed(Gamepads.Button.GP2_RIGHT_STICK_BUTTON));
+
         intake.update(dt);
+        lift.update(dt);
     }
 }
