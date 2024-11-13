@@ -19,5 +19,6 @@ liftL :D
 liftR - reverse
 ## Bucket
 bucketL - chub3 | down=0.1, up=0.65
+bucketR - chub4 | unused
 ## Claw
-claw - chub4 
+claw - chub2 | closed=0.55, open=0.86

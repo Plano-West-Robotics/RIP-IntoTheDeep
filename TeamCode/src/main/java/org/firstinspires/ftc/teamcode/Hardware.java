@@ -77,9 +77,9 @@ public class Hardware {
         bucketL = hardwareMap.get(Servo.class, "bucketL");
 //        bucketR = hardwareMap.get(Servo.class, "bucketR");
 
-        // calibrated on 2024-11-05
+        // calibrated on 2024-11-12
 
-        // claw: open 0.86 - closed 0.55,
+        // claw: open 0.86 - closed 0.55, port ch2
         claw.scaleRange(0.55, 0.86);
         claw.setDirection(Servo.Direction.REVERSE);
 
@@ -92,12 +92,12 @@ public class Hardware {
         extendR.setDirection(Servo.Direction.FORWARD);
 
         //         down - up
-        // wristL  0.00 - 0.75, port eh3
+        // wristL  0.00 - 0.83, port eh3
         // wristR
-        wristL.scaleRange(0.00, 0.83);
-        wristL.setDirection(Servo.Direction.REVERSE);
+        wristL.scaleRange(0.0, 0.83);
 
-        // intake - 0.35-0.65, port eh5
+        //          closed - open
+        // intake - 0.35   - 0.65, port eh5
         intake.scaleRange(0.35, 0.65);
 
         //          down - up
