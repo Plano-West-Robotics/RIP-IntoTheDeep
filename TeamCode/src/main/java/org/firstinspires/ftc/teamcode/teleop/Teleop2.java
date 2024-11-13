@@ -3,13 +3,10 @@ package org.firstinspires.ftc.teamcode.teleop;
 import android.annotation.SuppressLint;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleGrabber;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
@@ -42,6 +39,7 @@ public class Teleop2 extends OpModeWrapper {
 
         telemetry.addData("Drive speed", String.format("%.2f", drive.getSpeed()));
         telemetry.addData("Field oriented enabled", drive.getFieldOriented());
+        telemetry.addData("Extendo State", intake.getState());
 
         if (gamepads.justPressed(Gamepads.Button.GP2_CROSS)) intake.toggleDown();
         intake.setPower(gamepads.getAnalogValue(Gamepads.AnalogInput.GP2_LEFT_STICK_Y));
@@ -53,10 +51,10 @@ public class Teleop2 extends OpModeWrapper {
             }
         }
 
-        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPosition(0);
-        else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPosition(1);
+        if (gamepads.isPressed(Gamepads.Button.GP2_TRIANGLE)) intake.closeIntake();
+        else if (gamepads.isPressed(Gamepads.Button.GP2_CIRCLE)) intake.openIntake();
 
-        if (gamepads.isPressed(Gamepads.Button.GP2_CIRCLE)) hardware.bucketL.setPosition(1);
+        if (gamepads.isPressed(Gamepads.Button.GP1_SQUARE)) hardware.bucketL.setPosition(1);
         else hardware.bucketL.setPosition(0);
 
         if (gamepads.justPressed(Gamepads.Button.GP2_DPAD_DOWN)) lift.setTarget(Lift.MIN_TICKS);
