@@ -132,7 +132,7 @@ public class Intake {
                     this.extendo.goTo(EXTEND_THRESH);
                     down = false;
                     openIntake();
-                    this.grabber.goTo(SimpleGrabber.State.DOWN);
+                    this.grabber.goTo(SimpleGrabber.State.UP);
                 }
                 break;
             case OUT_1:

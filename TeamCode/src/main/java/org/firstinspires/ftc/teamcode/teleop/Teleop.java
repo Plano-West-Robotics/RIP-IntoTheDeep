@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,7 +14,8 @@ import org.firstinspires.ftc.teamcode.units.Vector2;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
-@TeleOp(name = "DDDDDDDDD")
+@TeleOp(name = "DDDDDDDDD old")
+@Disabled
 public class Teleop extends OpModeWrapper {
     TeleDrive drive;
     DeltaTimer time;

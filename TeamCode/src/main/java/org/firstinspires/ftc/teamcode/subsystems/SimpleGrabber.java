@@ -6,7 +6,7 @@ public class SimpleGrabber {
     private final Hardware hardware;
 
     public enum State {
-        BUCKET(1.0), UP(0.2), DOWN(0.0);
+        BUCKET(1.0), UP(0.3), DOWN(0.0);
 
         final double pos;
         State(double pos) {
