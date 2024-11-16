@@ -10,7 +10,7 @@ public class Intake {
     private final Grabber grabber;
     private final Servo intake;
 
-    private final double EXTEND_THRESH = 0.3;
+    private final double EXTEND_THRESH = 0.1;
 
     private enum State {
         CONTINUUM, GRAB, IN_1, IN_2, BUCKET, OUT_2, OUT_1;
