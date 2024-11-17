@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware;
@@ -16,7 +17,8 @@ public class Lift {
     public static final int MAX_TICKS = 4200;
 //    public static final Distance DIST_PER_TICK = (MAX_HEIGHT.sub(MIN_HEIGHT)).div(MAX_TICKS - MIN_TICKS);
 
-    private static final double GRAVITY_FEEDFORWARD = 0.05;
+    private static final double GRAVITY_FEEDFORWARD = 0.09;
+    private static final int DELTA = 300;
 
     private final SimpleLift inner;
     private int current;
@@ -73,8 +75,6 @@ public class Lift {
         if (override) {
             isGoingToTarget = false;
             outPower = power;
-            // always respect top limit (otherwise slide belts will slip)
-            outPower = Math.min(outPower, sigmoidCtrl(MAX_TICKS - this.current));
         } else {
             if (this.isGoingToTarget) {
                 int error = target - this.current;
@@ -95,7 +95,6 @@ public class Lift {
     }
 
     private double sigmoidCtrl(double error) {
-        final int DELTA = 500;
         return Math.tanh(error / DELTA);
 //        error /= DELTA;
 //        double exp = Math.exp(2 * error);

@@ -80,7 +80,7 @@ public class Hardware {
         // calibrated on 2024-11-12
 
         // claw: open 0.86 - closed 0.55, port ch2
-        claw.scaleRange(0.55, 0.86);
+        claw.scaleRange(0.55, 0.83);
         claw.setDirection(Servo.Direction.REVERSE);
 
         //            in - out

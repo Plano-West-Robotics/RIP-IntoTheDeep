@@ -58,11 +58,6 @@ public abstract class AutoBase extends LinearOpMode {
                 Angle.ZERO
         ));
 
-        // HACK to make this work before the clock strikes 6:30
-        if (location == LeftOrRight.RIGHT) {
-            initialPose = initialPose.then(new Pose(Distance2.ZERO, Angle.BACKWARD));
-        }
-
         this.poser = new Poser(hardware, 0.9, false, initialPose);
     }
 }
