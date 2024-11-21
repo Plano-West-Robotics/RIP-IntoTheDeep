@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
 @Autonomous(preselectTeleOp = "DDDDDDDDD")
+@Disabled
 public class AutoRight extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
+        // NOTE: doesn't work rn because i removed the HACK in AutoBase
+
         super.setup(LeftOrRight.RIGHT);
         hardware.claw.setPosition(1);
 

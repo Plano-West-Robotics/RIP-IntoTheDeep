@@ -19,7 +19,7 @@ public class AutoLeft extends AutoBase {
         waitForStart();
 
         poser.goTo(
-                Distance.inTiles(-2.5).add(Distance.inInches(5)),
+                Distance.inTiles(-2.5).add(Distance.inInches(4)),
                 Distance.inTiles(-2.5).add(Distance.inInches(5))
         ).run();
         poser.moveBy(Angle.inDegrees(-45)).run();
