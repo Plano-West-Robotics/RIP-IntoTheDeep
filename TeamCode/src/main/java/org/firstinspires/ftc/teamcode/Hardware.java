@@ -138,7 +138,7 @@ public class Hardware {
      * @return yaw in radians
      */
     public Angle getYaw() {
-        return Angle.inDegrees(getYaw(AngleUnit.RADIANS));
+        return Angle.inRadians(getYaw(AngleUnit.RADIANS));
     }
 
     /**
