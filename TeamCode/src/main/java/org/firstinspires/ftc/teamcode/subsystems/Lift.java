@@ -105,4 +105,8 @@ public class Lift {
     public int getCurrentPos() {
         return this.current;
     }
+
+    public boolean isBusy() {
+        return this.isGoingToTarget;
+    }
 }
