@@ -11,7 +11,7 @@ public class Distance {
 
     public static final Distance ZERO = new Distance(0);
     // TODO: real robot size
-    public static final Distance ROBOT_LENGTH = Distance.inInches(18);
+    public static final Distance ROBOT_LENGTH = Distance.inInches(17);
     public static final Distance ROBOT_WIDTH = Distance.inInches(18);
 
     public static final Distance TILE_BORDER = Distance.inInches(0.75);
