@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 @TeleOp(name = "Paws 4 Progress")
-@Disabled
 public class Paws4Progress extends OpModeWrapper {
     TeleDrive drive;
 
