@@ -15,7 +15,8 @@ public class Controls {
     public static Gamepads.AnalogInput EXTENDO = Gamepads.AnalogInput.GP2_RIGHT_STICK_Y;
     public static Gamepads.Button EXTENDO_GOTO = Gamepads.Button.GP2_RIGHT_STICK_BUTTON;
     public static Gamepads.Button INTAKE_TOGGLE_DOWN = Gamepads.Button.GP2_SQUARE;
-    public static Gamepads.Button INTAKE_GRAB = Gamepads.Button.GP2_TRIANGLE;
+    public static Gamepads.Button INTAKE_BUMP_LEFT = Gamepads.Button.GP2_LEFT_BUMPER;
+    public static Gamepads.Button INTAKE_BUMP_RIGHT = Gamepads.Button.GP2_RIGHT_BUMPER;
 
     public static Gamepads.AnalogInput LIFT = Gamepads.AnalogInput.GP2_LEFT_STICK_Y;
     public static Gamepads.Button LIFT_OVERRIDE = Gamepads.Button.GP2_LEFT_STICK_BUTTON;

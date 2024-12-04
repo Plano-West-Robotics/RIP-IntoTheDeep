@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Intake2;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.units.Vector2;
@@ -15,10 +16,8 @@ import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 public class Teleop2 extends OpModeWrapper {
     TeleDrive drive;
     DeltaTimer time;
-    Intake intake;
+    Intake2 intake;
     Lift lift;
-
-    boolean intakeClosed;
 
     private static final double MID_SPEED = 0.7;
     private static final double LOW_SPEED = 0.3;
@@ -30,10 +29,8 @@ public class Teleop2 extends OpModeWrapper {
         drive = new TeleDrive(hardware, MID_SPEED);
         drive.setFieldOriented(true);
         time = new DeltaTimer(false);
-        intake = new Intake(hardware);
+        intake = new Intake2(hardware);
         lift = new Lift(hardware);
-
-        intakeClosed = false;
     }
 
     @SuppressLint("DefaultLocale")
@@ -68,14 +65,11 @@ public class Teleop2 extends OpModeWrapper {
             else if (intakePow < 0) intake.setTarget(-1);
         }
 
-        if (gamepads.justPressed(Controls.INTAKE_GRAB)) {
-            if (intakeClosed) {
-                intake.openIntake();
-                intakeClosed = false;
-            } else {
-                intake.closeIntake();
-                intakeClosed = true;
-            }
+        if (gamepads.justPressed(Controls.INTAKE_BUMP_LEFT)) {
+            intake.swivelBumpLeft();
+        }
+        if (gamepads.justPressed(Controls.INTAKE_BUMP_RIGHT)) {
+            intake.swivelBumpRight();
         }
 
         if (gamepads.isPressed(Controls.BUCKET_DROP)) hardware.bucketL.setPosition(1);

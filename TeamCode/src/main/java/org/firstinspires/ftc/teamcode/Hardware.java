@@ -23,6 +23,7 @@ public class Hardware {
     public Servo claw;
     public Servo extendL, extendR;
     public Servo wristL, wristR;
+    public Servo swivel;
     public Servo intake;
     public Servo bucketL, bucketR;
     public RevTouchSensor liftLimitL, liftLimitR;
@@ -73,6 +74,7 @@ public class Hardware {
         extendR = hardwareMap.get(Servo.class, "extendR");
         wristL = hardwareMap.get(Servo.class, "wristL");
 //        wristR = hardwareMap.get(Servo.class, "wristR");
+        swivel = hardwareMap.get(Servo.class, "swivel");
         intake = hardwareMap.get(Servo.class, "intake");
         bucketL = hardwareMap.get(Servo.class, "bucketL");
 //        bucketR = hardwareMap.get(Servo.class, "bucketR");
@@ -99,6 +101,9 @@ public class Hardware {
         //          closed - open
         // intake - 0.35   - 0.65, port eh5
         intake.scaleRange(0.35, 0.65);
+
+        // swivel - left 0.00 - right 1.00, port ???
+        swivel.scaleRange(0.00, 1.00);
 
         //          down - up
         // bucketL  0.10 - 0.65, port ch3
