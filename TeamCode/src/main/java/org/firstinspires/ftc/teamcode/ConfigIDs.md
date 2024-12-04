@@ -18,10 +18,10 @@ intake - exp5 | closed=0.35, open=0.65
 liftL :D - chub3?
 liftR - reverse - exp0
 ## Bucket
-bucketL - chub3 | down=0.1, up=0.65
+bucketL - chub3 | down=0.15, up=0.67
 bucketR - chub4 | unused
 ## Claw
-claw - chub2 | closed=0.55, open=0.86
+claw - chub2 | closed=0.63, open=0.83
 
 ## Wifi
 ripemtoshreds

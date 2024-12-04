@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,6 +29,7 @@ public class Hardware {
     public Servo intake;
     public Servo bucketL, bucketR;
     public RevTouchSensor liftLimitL, liftLimitR;
+    public DistanceSensor distL, distR;
     public IMU imu;
 
     public OpMode opMode;
@@ -79,10 +82,10 @@ public class Hardware {
         bucketL = hardwareMap.get(Servo.class, "bucketL");
 //        bucketR = hardwareMap.get(Servo.class, "bucketR");
 
-        // calibrated on 2024-11-12
+        // calibrated on 2024-12-04
 
-        // claw: open 0.86 - closed 0.55, port ch2
-        claw.scaleRange(0.55, 0.83);
+        // claw: open 0.83 - closed 0.63, port ch2
+        claw.scaleRange(0.63, 0.83);
         claw.setDirection(Servo.Direction.REVERSE);
 
         //            in - out
@@ -106,13 +109,16 @@ public class Hardware {
         swivel.scaleRange(0.00, 1.00);
 
         //          down - up
-        // bucketL  0.10 - 0.65, port ch3
+        // bucketL  0.15 - 0.67, port ch3
         // bucketR
-        bucketL.scaleRange(0.10, 0.65);
+        bucketL.scaleRange(0.15, 0.67);
         bucketL.setDirection(Servo.Direction.FORWARD);
 
         liftLimitL = hardwareMap.get(RevTouchSensor.class, "liftLimitL");
         liftLimitR = hardwareMap.get(RevTouchSensor.class, "liftLimitR");
+
+        distL = hardwareMap.get(DistanceSensor.class, "distL");
+        distR = hardwareMap.get(DistanceSensor.class, "distR");
 
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(
