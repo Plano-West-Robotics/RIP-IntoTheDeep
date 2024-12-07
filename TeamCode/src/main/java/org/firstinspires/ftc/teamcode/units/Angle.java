@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.units;
 
+import android.annotation.SuppressLint;
+
 public class Angle {
     private static final double TAU = 2 * Math.PI;
 
@@ -39,10 +41,10 @@ public class Angle {
         this.val = val;
     }
 
+    @SuppressLint("DefaultLocale")
     public String toString() {
-        return this.valInDegrees() + " deg";
+        return String.format("%.2f deg", this.valInDegrees());
     }
-
     public boolean equals(Angle other) {
         return this.val == other.val;
     }

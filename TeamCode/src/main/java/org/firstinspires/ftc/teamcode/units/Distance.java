@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.units;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.Nullable;
 
 public class Distance {
@@ -62,8 +64,9 @@ public class Distance {
         this.val = val;
     }
 
+    @SuppressLint("DefaultLocale")
     public String toString() {
-        return this.valInMM() + " mm";
+        return String.format("%.2f in", this.valInInches());
     }
 
     public boolean equals(Distance other) {

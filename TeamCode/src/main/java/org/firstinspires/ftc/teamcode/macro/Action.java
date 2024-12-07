@@ -27,7 +27,7 @@ public interface Action {
      * A helper method that runs the `Action` to completion by calling `update` in a loop.
      */
     default void run() {
-        while (!Thread.interrupted() && this.update().shouldContinue());
+        while (!Thread.interrupted() && this.update().shouldContinue()) Thread.yield();
         this.end();
     }
 

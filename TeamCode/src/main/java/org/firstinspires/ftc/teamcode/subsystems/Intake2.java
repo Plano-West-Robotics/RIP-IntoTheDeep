@@ -101,7 +101,7 @@ public class Intake2 {
                     this.state = State.OUT;
                     this.extendo.goTo(EXTEND_THRESH);
                     this.grabber.toUp();
-                } else if (!this.extendo.isBusy()) {
+                } else if (!this.grabber.isBusy() && !this.extendo.isBusy()) {
                     this.state = State.BUCKET;
                     this.grabber.openClawAtBucket();
                 }

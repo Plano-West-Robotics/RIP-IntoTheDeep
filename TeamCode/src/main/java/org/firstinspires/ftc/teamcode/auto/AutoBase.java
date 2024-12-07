@@ -21,13 +21,17 @@ public abstract class AutoBase extends LinearOpMode {
         LEFT, RIGHT
     }
 
-    public void setup(LeftOrRight location) {
+    public void setup(LeftOrRight location, boolean withSpecimen) {
         this.hardware = new Hardware(this);
         this.intake = new Intake(hardware); // TODO: initial
         this.lift = new Lift(hardware, 0);
 
         intake.openIntake();
-        hardware.claw.setPosition(0);
+        if (withSpecimen) {
+            hardware.claw.setPosition(1);
+        } else {
+            hardware.claw.setPosition(0);
+        }
 
         // starting pose calculations
 
@@ -57,6 +61,10 @@ public abstract class AutoBase extends LinearOpMode {
                 ).div(2),
                 Angle.ZERO
         ));
+
+        if (withSpecimen) {
+            initialPose = initialPose.then(new Pose(Distance2.ZERO, Angle.BACKWARD));
+        }
 
         this.poser = new Poser(hardware, 0.9, false, initialPose);
     }

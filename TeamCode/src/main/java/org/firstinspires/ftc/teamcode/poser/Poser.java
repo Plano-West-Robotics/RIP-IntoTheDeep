@@ -29,7 +29,7 @@ public class Poser {
 
     public Poser(Hardware hardware, double speed, boolean flipped, Pose initialPose) {
         this.hardware = hardware;
-        this.localizer = new Localizer.FromDelta(new DriveEncoderLocalizer(hardware), initialPose);
+        this.localizer = new Localizer.FromDelta(new TwoDeadWheelLocalizer(hardware), initialPose);
         this.speed = speed;
         // flip it back if needed
         // TODO: cursed
@@ -91,10 +91,7 @@ public class Poser {
     }
 
     public Motion moveBy(Pose pose) {
-        return this.goTo(new Pose(
-                this.lastTarget.pos.add(pose.pos),
-                this.lastTarget.yaw.add(pose.yaw)
-        ));
+        return this.goTo(this.lastTarget.then(pose));
     }
 
     public Motion goToX(Distance x) {

@@ -6,11 +6,11 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
-@Autonomous(preselectTeleOp = "DDDDDDDDD")
+@Autonomous(name = "Left Auto (preload to basket)", preselectTeleOp = "DDDDDDDDD")
 public class AutoLeft extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
-        super.setup(LeftOrRight.LEFT);
+        super.setup(LeftOrRight.LEFT, false);
         hardware.bucketL.setPosition(0);
         hardware.wristL.setPosition(0.8); // HACK
 

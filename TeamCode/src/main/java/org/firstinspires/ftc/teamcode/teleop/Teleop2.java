@@ -2,13 +2,18 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
+import org.firstinspires.ftc.teamcode.poser.Localizer;
+import org.firstinspires.ftc.teamcode.poser.TwoDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode.subsystems.DistanceSensors;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake2;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
+import org.firstinspires.ftc.teamcode.units.Pose;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
@@ -18,6 +23,9 @@ public class Teleop2 extends OpModeWrapper {
     DeltaTimer time;
     Intake2 intake;
     Lift lift;
+
+    DistanceSensors distanceSensors;
+    Localizer localizer;
 
     private static final double MID_SPEED = 0.7;
     private static final double LOW_SPEED = 0.3;
@@ -31,11 +39,27 @@ public class Teleop2 extends OpModeWrapper {
         time = new DeltaTimer(false);
         intake = new Intake2(hardware);
         lift = new Lift(hardware);
+
+        distanceSensors = new DistanceSensors(hardware);
+        localizer = new Localizer.FromDelta(new TwoDeadWheelLocalizer(hardware), Pose.ZERO);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     public void run() {
+        distanceSensors.doI2cRead();
+        telemetry.addData("distL", distanceSensors.getDistL());
+        telemetry.addData("distR", distanceSensors.getDistR());
+        telemetry.addData("sane?", distanceSensors.areValuesSane());
+        telemetry.addData("angle", distanceSensors.angleAwayFromTarget());
+        telemetry.addData("distance", distanceSensors.distanceFromTarget());
+
+        telemetry.addData("lift pos", lift.getCurrentPos());
+
+        telemetry.addData("pose", localizer.getPoseEstimate());
+        hardware.dashboardTelemetry.drawRobot(localizer.getPoseEstimate());
+        localizer.update();
+
         double dt = time.poll();
 
         if (gamepads.isPressed(Controls.SLOW_MODE)) {
@@ -48,8 +72,9 @@ public class Teleop2 extends OpModeWrapper {
 
         double x = gamepads.getAnalogValue(Controls.STRAIGHT);
         double y = -gamepads.getAnalogValue(Controls.STRAFE);
+        Vector2 pow = new Vector2(x, y);
         double turn = -gamepads.getAnalogValue(Controls.TURN);
-        drive.drive(new Vector2(x, y), turn);
+        drive.drive(pow, turn);
 
         if (gamepads.justPressed(Controls.YAW_RESET)) drive.resetYaw();
 

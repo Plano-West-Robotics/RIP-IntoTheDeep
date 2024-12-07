@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.util.ServoTimer;
 
@@ -25,10 +27,10 @@ public class Grabber2 {
     public Grabber2(Hardware hardware) {
         this.inner = new SimpleGrabber2(hardware);
         this.wrist = new ServoTimer(SimpleGrabber2.WristState.BUCKET.pos, 1.1);
-        this.swivel = new ServoTimer(0.5, 1.1);
-        this.claw = new ServoTimer(1.0, 1.1);
+        this.swivel = new ServoTimer(0.5, 2.0);
+        this.claw = new ServoTimer(1.0, 4.5);
         this.inner.wristTo(SimpleGrabber2.WristState.BUCKET);
-        this.inner.swivelTo(0.5);
+        this.inner.swivelTo(1.0);
         this.inner.openClaw();
         this.state = State.BUCKET;
     }
@@ -39,8 +41,14 @@ public class Grabber2 {
     }
 
     private void swivelTo(double pos) {
+        pos = Range.scale(pos, 0.0, 1.0, 2/3., 0);
         this.swivel.goTo(pos);
         this.inner.swivelTo(pos);
+    }
+
+    private void swivelToBucket() {
+        this.swivel.goTo(1);
+        this.inner.swivelTo(1);
     }
 
     private void closeClaw() {
@@ -67,8 +75,9 @@ public class Grabber2 {
                 break;
 
             case BUCKET:
-            case MOVING_DOWN:
             case MOVING_BUCKET:
+                this.swivelTo(0.5);
+            case MOVING_DOWN:
                 this.closeClaw();
                 this.wristTo(SimpleGrabber2.WristState.UP);
                 this.state = State.MOVING_UP;
@@ -82,10 +91,11 @@ public class Grabber2 {
             case MOVING_DOWN:
                 break;
 
+            case BUCKET:
+            case MOVING_BUCKET:
+                this.swivelTo(0.5);
             case UP:
             case MOVING_UP:
-            case MOVING_BUCKET:
-            case BUCKET:
                 this.openClaw();
                 this.wristTo(SimpleGrabber2.WristState.DOWN);
                 this.state = State.MOVING_DOWN;
@@ -115,6 +125,7 @@ public class Grabber2 {
             case MOVING_DOWN:
             case UP:
             case MOVING_UP:
+                this.swivelToBucket();
                 this.wristTo(SimpleGrabber2.WristState.BUCKET);
                 this.state = State.MOVING_BUCKET;
                 break;
@@ -171,7 +182,7 @@ public class Grabber2 {
                 break;
             case GRABBING_TO_BUCKET:
                 if (!this.claw.isBusy()) {
-                    this.swivelTo(0.5);
+                    this.swivelToBucket();
                     this.wristTo(SimpleGrabber2.WristState.BUCKET);
                     this.state = State.MOVING_BUCKET;
                 }
