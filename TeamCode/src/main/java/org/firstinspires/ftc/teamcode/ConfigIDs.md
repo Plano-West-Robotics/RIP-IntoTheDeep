@@ -22,6 +22,8 @@ bucketL - chub3 | down=0.15, up=0.67
 bucketR - chub4 | unused
 ## Claw
 claw - chub2 | closed=0.63, open=0.83
+## Odo
+rightOdo - ehub
 
 ## Wifi
 ripemtoshreds

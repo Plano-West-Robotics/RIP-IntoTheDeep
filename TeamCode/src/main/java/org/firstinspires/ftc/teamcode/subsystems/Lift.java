@@ -58,14 +58,13 @@ public class Lift {
 
     public void update(double dt) {
         int newLeftEncoder = this.inner.leftEncoder();
-//        int newRightEncoder = this.inner.rightEncoder();
+        int newRightEncoder = this.inner.rightEncoder();
         int dl = newLeftEncoder - this.leftEncoder;
-//        int dr = newRightEncoder - this.rightEncoder;
+        int dr = newRightEncoder - this.rightEncoder;
         this.leftEncoder = newLeftEncoder;
-//        this.rightEncoder = newRightEncoder;
+        this.rightEncoder = newRightEncoder;
 
-//        this.current += (dl + dr) / 2;
-        this.current += dl;
+        this.current += (dl + dr) / 2;
 
         if (this.inner.isLeftDown() || this.inner.isRightDown()) {
             this.current = MIN_TICKS + 30;
@@ -79,7 +78,7 @@ public class Lift {
             if (this.isGoingToTarget) {
                 int error = target - this.current;
                 outPower = sigmoidCtrl(error);
-                if (Math.abs(error) < 25) {
+                if (Math.abs(error) <= 30) { // TODO: i want this to be 25 but that breaks with the 30 above
                     isGoingToTarget = false;
                     outPower = power;
                 }

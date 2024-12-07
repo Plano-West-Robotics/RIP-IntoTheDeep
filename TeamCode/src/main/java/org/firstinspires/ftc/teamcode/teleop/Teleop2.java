@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
 import org.firstinspires.ftc.teamcode.poser.Localizer;
 import org.firstinspires.ftc.teamcode.poser.TwoDeadWheelLocalizer;
@@ -24,9 +25,6 @@ public class Teleop2 extends OpModeWrapper {
     Intake2 intake;
     Lift lift;
 
-    DistanceSensors distanceSensors;
-    Localizer localizer;
-
     private static final double MID_SPEED = 0.7;
     private static final double LOW_SPEED = 0.3;
 
@@ -39,26 +37,12 @@ public class Teleop2 extends OpModeWrapper {
         time = new DeltaTimer(false);
         intake = new Intake2(hardware);
         lift = new Lift(hardware);
-
-        distanceSensors = new DistanceSensors(hardware);
-        localizer = new Localizer.FromDelta(new TwoDeadWheelLocalizer(hardware), Pose.ZERO);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     public void run() {
-        distanceSensors.doI2cRead();
-        telemetry.addData("distL", distanceSensors.getDistL());
-        telemetry.addData("distR", distanceSensors.getDistR());
-        telemetry.addData("sane?", distanceSensors.areValuesSane());
-        telemetry.addData("angle", distanceSensors.angleAwayFromTarget());
-        telemetry.addData("distance", distanceSensors.distanceFromTarget());
-
         telemetry.addData("lift pos", lift.getCurrentPos());
-
-        telemetry.addData("pose", localizer.getPoseEstimate());
-        hardware.dashboardTelemetry.drawRobot(localizer.getPoseEstimate());
-        localizer.update();
 
         double dt = time.poll();
 

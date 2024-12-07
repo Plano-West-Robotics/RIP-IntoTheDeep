@@ -51,10 +51,11 @@ public class Poser {
     }
 
     public void move(double powerX, double powerY, double turn) {
-        double flPower = powerX - powerY - turn;
-        double frPower = powerX + powerY + turn;
-        double blPower = powerX + powerY - turn;
-        double brPower = powerX - powerY + turn;
+        double scale = Math.max(1, Math.abs(powerX) + Math.abs(powerY) + Math.abs(turn));
+        double flPower = (powerX - powerY - turn) / scale;
+        double frPower = (powerX + powerY + turn) / scale;
+        double blPower = (powerX + powerY - turn) / scale;
+        double brPower = (powerX - powerY + turn) / scale;
 
         this.hardware.fl.setPower(flPower);
         this.hardware.fr.setPower(frPower);
@@ -139,8 +140,8 @@ public class Poser {
     public class Motion implements Action {
         private static final double TIME_LIMIT = 2;
 
-        protected final PIDController xCtrl = new PIDController(1.5, 0, 0.25);
-        protected final PIDController yCtrl = new PIDController(1.5, 0, 0.25);
+        protected final PIDController xCtrl = new PIDController(2.0, 0, 0.25);
+        protected final PIDController yCtrl = new PIDController(2.0, 0, 0.25);
         protected final PIDController yawCtrl = new PIDController(1.5, 0, 0.15);
         protected Pose target;
         private RotationDirection rotationDirection;
@@ -245,7 +246,7 @@ public class Poser {
             }
 
             return ControlFlow.continueIf(
-                    posError.magnitude().valInMM() > 15 || Math.abs(angError.valInDegrees()) > 4
+                    posError.magnitude().valInMM() > 20 || Math.abs(angError.valInDegrees()) > 4
             );
         }
 

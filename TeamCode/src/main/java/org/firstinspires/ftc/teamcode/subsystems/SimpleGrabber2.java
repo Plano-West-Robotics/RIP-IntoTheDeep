@@ -22,7 +22,7 @@ public class SimpleGrabber2 {
 
     public void wristTo(WristState pos) {
         hardware.wristL.setPosition(pos.pos);
-        hardware.wristR.setPosition(pos.pos);
+//        hardware.wristR.setPosition(pos.pos);
     }
 
     public void swivelTo(double pos) {

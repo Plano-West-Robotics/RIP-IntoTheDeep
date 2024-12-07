@@ -63,7 +63,7 @@ public class TeleDrive {
             pow = pow.rot(hardware.getYaw().sub(yawOffset).neg());
         }
 
-        drive.drive(pow.mul(speed), turn);
+        drive.drive(pow.mul(speed), turn * speed);
     }
 
     public void stop() {

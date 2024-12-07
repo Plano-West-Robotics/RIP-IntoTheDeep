@@ -94,8 +94,8 @@ public class Hardware {
 
         // calibrated on 2024-12-06
 
-        // claw: open 0.83 - closed 0.63, port ch2
-        claw.scaleRange(0.63, 0.83);
+        // claw: open 0.50 - closed 0.31, port ch2
+        claw.scaleRange(0.31, 0.50);
         claw.setDirection(Servo.Direction.REVERSE);
 
         //            in - out
@@ -179,35 +179,35 @@ public class Hardware {
         imu.resetYaw();
     }
 
-    @OnCreateEventLoop
-    public static void attachEventLoop(Context _context, FtcEventLoop eventLoop) {
-        OpModeManagerImpl mngr = eventLoop.getOpModeManager();
-        mngr.registerListener(new OpModeManagerNotifier.Notifications() {
-            List<LynxModule> hubs;
-
-            @Override
-            public void onOpModePreInit(OpMode opMode) {
-                if (!mngr.getActiveOpModeName().equals(OpModeManagerImpl.DEFAULT_OP_MODE_NAME)) {
-                    hubs = opMode.hardwareMap.getAll(LynxModule.class);
-                    for (LynxModule hub : hubs) {
-                        hub.setConstant(0xff_3f_3f);
-                    }
-                } else {
-                    hubs = null;
-                }
-            }
-
-            @Override
-            public void onOpModePreStart(OpMode opMode) {}
-
-            @Override
-            public void onOpModePostStop(OpMode opMode) {
-                if (hubs != null) {
-                    for (LynxModule hub : hubs) {
-                        hub.setPattern(LynxModule.blinkerPolicy.getIdlePattern(hub));
-                    }
-                }
-            }
-        });
-    }
+//    @OnCreateEventLoop
+//    public static void attachEventLoop(Context _context, FtcEventLoop eventLoop) {
+//        OpModeManagerImpl mngr = eventLoop.getOpModeManager();
+//        mngr.registerListener(new OpModeManagerNotifier.Notifications() {
+//            List<LynxModule> hubs;
+//
+//            @Override
+//            public void onOpModePreInit(OpMode opMode) {
+//                if (!mngr.getActiveOpModeName().equals(OpModeManagerImpl.DEFAULT_OP_MODE_NAME)) {
+//                    hubs = opMode.hardwareMap.getAll(LynxModule.class);
+//                    for (LynxModule hub : hubs) {
+//                        hub.setConstant(0xff_3f_3f);
+//                    }
+//                } else {
+//                    hubs = null;
+//                }
+//            }
+//
+//            @Override
+//            public void onOpModePreStart(OpMode opMode) {}
+//
+//            @Override
+//            public void onOpModePostStop(OpMode opMode) {
+//                if (hubs != null) {
+//                    for (LynxModule hub : hubs) {
+//                        hub.setPattern(LynxModule.blinkerPolicy.getIdlePattern(hub));
+//                    }
+//                }
+//            }
+//        });
+//    }
 }
