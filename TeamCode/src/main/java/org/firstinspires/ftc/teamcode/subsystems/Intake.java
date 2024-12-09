@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Extendo;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
 
 public class Intake {
     private final Extendo extendo;
     private final Grabber grabber;
-    private final Servo intake;
 
     private final double EXTEND_THRESH = 0.1;
 
     private enum State {
-        CONTINUUM, GRAB, IN_1, IN_2, BUCKET, OUT_2, OUT_1;
+        CONTINUUM, IN, BUCKET, OUT
     }
     private State state;
     private double k;
@@ -24,10 +23,14 @@ public class Intake {
     private boolean goingToTarget;
 
     public Intake(Hardware hardware) {
+        this(hardware.extend, new Grabber(hardware));
+    }
+
+    public Intake(Extendo extendo, Grabber grabber) {
+        this.extendo = extendo;
+        this.grabber = grabber;
+        assert extendo.getPosition() == 0;
         this.state = State.BUCKET;
-        this.extendo = new Extendo(hardware, 0);
-        this.grabber = new Grabber(hardware, SimpleGrabber.State.BUCKET);
-        this.intake = hardware.intake;
         this.goingToTarget = false;
     }
 
@@ -35,11 +38,26 @@ public class Intake {
         this.pow = pow;
     }
 
+    public void swivelBumpLeft() {
+        if (state == State.CONTINUUM) {
+            this.grabber.swivelBumpLeft();
+        }
+    }
+
+    public void swivelBumpRight() {
+        if (state == State.CONTINUUM) {
+            this.grabber.swivelBumpRight();
+        }
+    }
+
     public void toggleDown() {
-        if (state == State.CONTINUUM || state == State.IN_1 || state == State.OUT_1) {
+        if (state == State.CONTINUUM) {
             down = !down;
-            if (down) this.grabber.goTo(SimpleGrabber.State.DOWN);
-            else this.grabber.goTo(SimpleGrabber.State.UP);
+            if (down) {
+                this.grabber.toDown();
+            } else {
+                this.grabber.toUp();
+            }
         }
     }
 
@@ -78,37 +96,18 @@ public class Intake {
                 this.extendo.goTo(k);
 
                 if (k == EXTEND_THRESH && neg) {
-                    this.state = State.GRAB;
-                    this.grabber.goTo(SimpleGrabber.State.UP);
-                    closeIntake();
+                    this.state = State.IN;
+                    this.grabber.toBucket();
                 }
                 break;
-            case GRAB:
-                if (!this.grabber.isBusy()) {
-                    this.state = State.IN_1;
-                    this.grabber.goTo(SimpleGrabber.State.BUCKET);
-                    this.extendo.goTo(0.0);
-                }
-                break;
-            case IN_1:
+            case IN:
                 if (pos) {
-                    this.state = State.OUT_1;
-                    this.extendo.goTo(EXTEND_THRESH);
-                    closeIntake();
-                    this.grabber.goTo(SimpleGrabber.State.UP);
-                } else if (!this.extendo.isBusy()) {
-                    this.state = State.IN_2;
-                }
-                break;
-            case IN_2:
-                if (pos) {
-                    this.state = State.OUT_2;
-                    closeIntake();
-                    this.grabber.goTo(SimpleGrabber.State.UP);
-                } else if (!this.grabber.isBusy()) {
+                    this.state = State.OUT;
+                    this.extendo.setPosition(EXTEND_THRESH);
+                    this.grabber.toUp();
+                } else if (!this.grabber.isBusy() && !this.extendo.isBusy()) {
                     this.state = State.BUCKET;
-                    // TODO: Only if bucket is present (drivers pls dont be dumb)
-                    openIntake();
+                    this.grabber.openClawAtBucket();
                 }
                 break;
             case BUCKET:
@@ -117,34 +116,20 @@ public class Intake {
                 }
 
                 if (pos) {
-                    this.state = State.OUT_2;
-                    closeIntake();
-                    this.grabber.goTo(SimpleGrabber.State.UP);
+                    this.state = State.OUT;
+                    this.extendo.setPosition(EXTEND_THRESH);
+                    this.grabber.toUp();
                 }
                 break;
-            case OUT_2:
+            case OUT:
                 if (neg) {
-                    this.state = State.IN_2;
-                    closeIntake();
-                    this.grabber.goTo(SimpleGrabber.State.BUCKET);
-                } else if (!this.grabber.isBusy()) {
-                    this.state = State.OUT_1;
-                    this.extendo.goTo(EXTEND_THRESH);
-                    down = false;
-                    openIntake();
-                    this.grabber.goTo(SimpleGrabber.State.UP);
-                }
-                break;
-            case OUT_1:
-                if (neg) {
-                    this.state = State.GRAB;
-                    this.grabber.goTo(SimpleGrabber.State.UP);
-                    closeIntake();
+                    this.state = State.IN;
+                    this.grabber.toBucket();
                 } else if (!this.extendo.isBusy()) {
                     this.state = State.CONTINUUM;
                     if (this.goingToTarget) {
                         k = target;
-                        this.extendo.goTo(k);
+                        this.extendo.setPosition(k);
                     } else {
                         k = EXTEND_THRESH;
                     }
@@ -154,14 +139,6 @@ public class Intake {
 
         this.extendo.update(dt);
         this.grabber.update(dt);
-    }
-
-    public void openIntake() {
-        intake.setPosition(1);
-    }
-
-    public void closeIntake() {
-        intake.setPosition(0);
     }
 
     public State getState() {

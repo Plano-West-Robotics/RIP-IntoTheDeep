@@ -2,10 +2,8 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.poser.Poser;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.units.Distance2;
@@ -13,8 +11,6 @@ import org.firstinspires.ftc.teamcode.units.Pose;
 
 public abstract class AutoBase extends LinearOpMode {
     Hardware hardware;
-    Intake intake;
-    Lift lift;
     Poser poser;
 
     public enum LeftOrRight {
@@ -23,14 +19,11 @@ public abstract class AutoBase extends LinearOpMode {
 
     public void setup(LeftOrRight location, boolean withSpecimen) {
         this.hardware = new Hardware(this);
-        this.intake = new Intake(hardware); // TODO: initial
-        this.lift = new Lift(hardware, 0);
 
-        intake.openIntake();
         if (withSpecimen) {
-            hardware.claw.setPosition(1);
+            hardware.claw.close();
         } else {
-            hardware.claw.setPosition(0);
+            hardware.claw.open();
         }
 
         // starting pose calculations

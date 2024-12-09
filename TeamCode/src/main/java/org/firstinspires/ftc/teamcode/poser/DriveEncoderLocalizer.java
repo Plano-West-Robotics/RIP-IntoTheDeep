@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.poser;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
+import org.firstinspires.ftc.teamcode.hardware.Imu;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Pose;
 
 public class DriveEncoderLocalizer implements DeltaLocalizer {
-    Hardware hardware;
+    Drivetrain drivetrain;
+    Imu imu;
 
     // sensor readings
     int fl;
@@ -22,24 +23,25 @@ public class DriveEncoderLocalizer implements DeltaLocalizer {
     private static final double X_AXIS_CALIB = 1.0390625;
     private static final double Y_AXIS_CALIB = 1.2734375;
 
-    public DriveEncoderLocalizer(Hardware hardware) {
-        this.hardware = hardware;
+    public DriveEncoderLocalizer(Drivetrain drivetrain, Imu imu) {
+        this.drivetrain = drivetrain;
+        this.imu = imu;
 
-        this.fl = hardware.fl.getCurrentPosition();
-        this.fr = hardware.fr.getCurrentPosition();
-        this.bl = hardware.bl.getCurrentPosition();
-        this.br = hardware.br.getCurrentPosition();
+        this.fl = drivetrain.flEncoder();
+        this.fr = drivetrain.frEncoder();
+        this.bl = drivetrain.blEncoder();
+        this.br = drivetrain.brEncoder();
         try { Thread.sleep(1000); }
         catch (InterruptedException ignored) { }
-        this.imuYaw = Angle.inRadians(hardware.getYaw(AngleUnit.RADIANS));
+        this.imuYaw = imu.getYaw();
     }
 
     public Pose updateWithDelta() {
-        int newFl = hardware.fl.getCurrentPosition();
-        int newFr = hardware.fr.getCurrentPosition();
-        int newBl = hardware.bl.getCurrentPosition();
-        int newBr = hardware.br.getCurrentPosition();
-        Angle newImuYaw = Angle.inRadians(hardware.getYaw(AngleUnit.RADIANS));
+        int newFl = drivetrain.flEncoder();
+        int newFr = drivetrain.frEncoder();
+        int newBl = drivetrain.blEncoder();
+        int newBr = drivetrain.brEncoder();
+        Angle newImuYaw = imu.getYaw();
 
         int flDiff = newFl - this.fl;
         int frDiff = newFr - this.fr;

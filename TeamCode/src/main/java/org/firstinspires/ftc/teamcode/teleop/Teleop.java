@@ -2,67 +2,93 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import android.annotation.SuppressLint;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleGrabber;
-import org.firstinspires.ftc.teamcode.units.Vector2;
+import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
+import org.firstinspires.ftc.teamcode.units.Vector2;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
-@TeleOp(name = "DDDDDDDDD old")
-@Disabled
+@TeleOp(name = "DDDDDDDDD")
 public class Teleop extends OpModeWrapper {
     TeleDrive drive;
     DeltaTimer time;
-    SimpleGrabber grabber;
+    Intake intake;
+    ControlledLift lift;
 
-    double v;
+    private static final double MID_SPEED = 0.7;
+    private static final double LOW_SPEED = 0.3;
+
+    private static final double SLOW_LIFT = 0.3;
 
     @Override
     public void setup() {
-        drive = new TeleDrive(hardware, 0.7);
-        drive.setFieldOriented(false);
+        drive = new TeleDrive(hardware, MID_SPEED);
+        drive.setFieldOriented(true);
         time = new DeltaTimer(false);
-        grabber = new SimpleGrabber(hardware);
-        hardware.intake.setPosition(1);
+        intake = new Intake(hardware);
+        lift = new ControlledLift(hardware);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     public void run() {
+        telemetry.addData("lift pos", lift.getCurrentPos());
+
         double dt = time.poll();
+
+        if (gamepads.isPressed(Controls.SLOW_MODE)) {
+            drive.setSpeed(LOW_SPEED);
+            telemetry.addData("Speed", "Slow");
+        } else {
+            drive.setSpeed(MID_SPEED);
+            telemetry.addData("Speed", "Normal");
+        }
 
         double x = gamepads.getAnalogValue(Controls.STRAIGHT);
         double y = -gamepads.getAnalogValue(Controls.STRAFE);
+        Vector2 pow = new Vector2(x, y);
         double turn = -gamepads.getAnalogValue(Controls.TURN);
-        drive.drive(new Vector2(x, y), turn);
+        drive.drive(pow, turn);
 
-        telemetry.addData("Drive speed", String.format("%.2f", drive.getSpeed()));
+        if (gamepads.justPressed(Controls.YAW_RESET)) drive.resetYaw();
+
         telemetry.addData("Field oriented enabled", drive.getFieldOriented());
+        telemetry.addData("Yaw", hardware.imu.getYaw().valInDegrees());
+        telemetry.addData("Extendo State", intake.getState());
 
-        if (!gamepads.isPressed(Gamepads.Button.GP2_LEFT_STICK_BUTTON)) {
-            v += 0.5 * dt * gamepads.getAnalogValue(Gamepads.AnalogInput.GP2_LEFT_STICK_Y);
-            v = Range.clip(v, 0, 1);
-        } else {
-            v = Range.scale(gamepads.getAnalogValue(Gamepads.AnalogInput.GP2_LEFT_STICK_Y), -1, 1, 0, 1);
+        if (gamepads.justPressed(Controls.INTAKE_TOGGLE_DOWN)) intake.toggleDown();
+        double intakePow = gamepads.getAnalogValue(Controls.EXTENDO);
+        intake.setPower(intakePow);
+        if (gamepads.isPressed(Controls.EXTENDO_GOTO)) {
+            if (intakePow > 0) intake.setTarget(1.0);
+            else if (intakePow < 0) intake.setTarget(-1);
         }
-        hardware.extendL.setPosition(v);
-        hardware.extendR.setPosition(v);
-        telemetry.addData("Extendo Position", String.format("%.2f", v));
 
-        if (gamepads.justPressed(Gamepads.Button.GP2_SQUARE)) grabber.goTo(SimpleGrabber.State.DOWN);
-        if (gamepads.justPressed(Gamepads.Button.GP2_TRIANGLE)) grabber.goTo(SimpleGrabber.State.UP);
-        if (gamepads.justPressed(Gamepads.Button.GP2_CIRCLE)) grabber.goTo(SimpleGrabber.State.BUCKET);
+        if (gamepads.justPressed(Controls.INTAKE_BUMP_LEFT)) {
+            intake.swivelBumpLeft();
+        }
+        if (gamepads.justPressed(Controls.INTAKE_BUMP_RIGHT)) {
+            intake.swivelBumpRight();
+        }
 
-        if (gamepads.isPressed(Gamepads.Button.GP2_CROSS)) hardware.bucketL.setPosition(1);
-        else hardware.bucketL.setPosition(0);
+        if (gamepads.isPressed(Controls.BUCKET_DROP)) hardware.bucket.up();
+        else hardware.bucket.down();
 
-        if (gamepads.isPressed(Gamepads.Button.GP1_CROSS)) hardware.intake.setPosition(0);
-        else if (gamepads.isPressed(Gamepads.Button.GP1_CIRCLE)) hardware.intake.setPosition(1);
+        if (gamepads.isPressed(Controls.CLAW_GRAB)) hardware.claw.setPosition(1);
+        else hardware.claw.setPosition(0);
+
+        if (gamepads.justPressed(Controls.LIFT_TO_DOWN)) lift.setTarget(ControlledLift.MIN_TICKS);
+        if (gamepads.justPressed(Controls.LIFT_TO_BASKET1)) lift.setTarget(2200);
+        if (gamepads.justPressed(Controls.LIFT_TO_BASKET2)) lift.setTarget(4200);
+        if (gamepads.justPressed(Controls.LIFT_TO_SPECIMEN)) lift.setTarget(200);
+        lift.setPower(gamepads.isPressed(Gamepads.Button.GP2_LEFT_BUMPER) ?
+                gamepads.getAnalogValue(Controls.LIFT) * SLOW_LIFT : gamepads.getAnalogValue(Controls.LIFT));
+        lift.setOverride(gamepads.isPressed(Controls.LIFT_OVERRIDE));
+
+        intake.update(dt);
+        lift.update(dt);
     }
 }

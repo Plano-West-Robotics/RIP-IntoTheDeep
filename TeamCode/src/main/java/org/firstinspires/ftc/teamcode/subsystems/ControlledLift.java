@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Lift;
 
-public class Lift {
+public class ControlledLift {
     // 0 -> 6.5 in
     // 2172 -> 25.75 in
     // 4139 -> 43 in
@@ -20,7 +20,7 @@ public class Lift {
     private static final double GRAVITY_FEEDFORWARD = 0.09;
     private static final int DELTA = 300;
 
-    private final SimpleLift inner;
+    private final Lift inner;
     private int current;
     private int leftEncoder;
     private int rightEncoder;
@@ -30,13 +30,23 @@ public class Lift {
     private boolean isGoingToTarget;
     private int target;
 
-    public Lift(Hardware hardware) {
-        this(hardware, 0);
+    public ControlledLift(Hardware hardware) {
+        this(hardware.lift);
     }
 
-    public Lift(Hardware hardware, int initial) {
-        this.inner = new SimpleLift(hardware);
+    public ControlledLift(Hardware hardware, int initial) {
+        this(hardware.lift, initial);
+    }
+
+    public ControlledLift(Lift inner) {
+        this(inner, 0);
+    }
+
+    public ControlledLift(Lift inner, int initial) {
+        this.inner = inner;
         this.current = initial;
+        this.leftEncoder = this.inner.leftEncoder();
+        this.rightEncoder = this.inner.rightEncoder();
 
         this.power = 0;
         this.override = false;

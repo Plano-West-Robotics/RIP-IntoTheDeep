@@ -1,21 +1,29 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.hardware;
+
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 
 public class DistanceSensors {
-    Hardware hardware;
-
     // NOTE: left is the *robot*'s left
-    double readingL;
-    double readingR;
+    private final DistanceSensor distL, distR;
+
+    private double readingL;
+    private double readingR;
 
     private static final Distance DIST_BETWEEN_SENSORS = Distance.inInches(6 + 13/16.);
 
-    public DistanceSensors(Hardware hardware) {
-        this.hardware = hardware;
+    public DistanceSensors(HardwareMap hardwareMap) {
+        this.distL = hardwareMap.get(DistanceSensor.class, "distL");
+        this.distR = hardwareMap.get(DistanceSensor.class, "distR");
+    }
+
+    public void doI2cRead() {
+        this.readingL = this.distL.getDistance(DistanceUnit.MM);
+        this.readingR = this.distR.getDistance(DistanceUnit.MM);
     }
 
     public Distance getDistL() {
@@ -50,10 +58,5 @@ public class DistanceSensors {
         Distance mid = l.add(r).div(2);
 //        return mid.mul(this.angleAwayFromTarget().cos());
         return mid.div(Math.sqrt( Math.pow(r.sub(l).div(DIST_BETWEEN_SENSORS), 2) + 1 ));
-    }
-
-    public void doI2cRead() {
-        this.readingL = hardware.distL.getDistance(DistanceUnit.MM);
-        this.readingR = hardware.distR.getDistance(DistanceUnit.MM);
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
@@ -11,9 +12,10 @@ public class AutoLeft extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
         super.setup(LeftOrRight.LEFT, false);
-        hardware.bucketL.setPosition(0);
-        hardware.wristL.setPosition(0.8); // HACK
+        hardware.bucket.down();
+        hardware.wrist.setPosition(0.8); // HACK
 
+        ControlledLift lift = new ControlledLift(hardware);
         DeltaTimer dter = new DeltaTimer();
 
         waitForStart();
@@ -28,10 +30,10 @@ public class AutoLeft extends AutoBase {
         lift.setTarget(4200);
         while (lift.isBusy()) lift.update(dter.poll());
 
-        hardware.bucketL.setPosition(1);
+        hardware.bucket.up();
         sleep(2000);
 
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.down();
         sleep(2000);
 
         dter.poll();

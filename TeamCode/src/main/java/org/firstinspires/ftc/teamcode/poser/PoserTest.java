@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.config.ValueProvider;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance2;
 import org.firstinspires.ftc.teamcode.units.Pose;

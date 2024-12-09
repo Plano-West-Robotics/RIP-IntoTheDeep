@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.poser;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.units.Pose;
@@ -29,13 +29,13 @@ public class TwoDeadWheelLocalizer implements DeltaLocalizer {
         this.rightOdo = hardware.rightOdo.getCurrentPosition();
         try { Thread.sleep(1000); }
         catch (InterruptedException ignored) { }
-        this.imuYaw = Angle.inRadians(hardware.getYaw(AngleUnit.RADIANS));
+        this.imuYaw = hardware.imu.getYaw();
     }
 
     public Pose updateWithDelta() {
         int newBackOdo = hardware.backOdo.getCurrentPosition();
         int newRightOdo = hardware.rightOdo.getCurrentPosition();
-        Angle newImuYaw = hardware.getYaw();
+        Angle newImuYaw = hardware.imu.getYaw();
 
         double backOdoDiff = (newBackOdo - this.backOdo) * BACK_ODO_DIR * MM_PER_ENCODER_TICK;
         double rightOdoDiff = (newRightOdo - this.rightOdo) * RIGHT_ODO_DIR * MM_PER_ENCODER_TICK_2;

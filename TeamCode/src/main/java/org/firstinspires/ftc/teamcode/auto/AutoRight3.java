@@ -2,14 +2,18 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.hardware.Bucket;
+import org.firstinspires.ftc.teamcode.hardware.Claw;
+import org.firstinspires.ftc.teamcode.hardware.IntakeClaw;
+import org.firstinspires.ftc.teamcode.hardware.Swivel;
+import org.firstinspires.ftc.teamcode.hardware.Wrist;
 import org.firstinspires.ftc.teamcode.macro.Action;
 import org.firstinspires.ftc.teamcode.macro.ConcurrentSet;
 import org.firstinspires.ftc.teamcode.macro.ControlFlow;
 import org.firstinspires.ftc.teamcode.macro.Sequence;
 import org.firstinspires.ftc.teamcode.macro.Wait;
 import org.firstinspires.ftc.teamcode.poser.Poser;
-import org.firstinspires.ftc.teamcode.subsystems.DistanceSensors;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleGrabber2;
+import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
@@ -19,11 +23,9 @@ public class AutoRight3 extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
         super.setup(LeftOrRight.RIGHT, true);
-        hardware.claw.setPosition(1);
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.down();
 
-        DistanceSensors distanceSensors = new DistanceSensors(hardware);
-        SimpleGrabber2 grabber = new SimpleGrabber2(hardware);
+        ControlledLift lift = new ControlledLift(hardware);
         DeltaTimer dter = new DeltaTimer();
 
         Action liftUpdaterAction = new Action() {
@@ -37,8 +39,6 @@ public class AutoRight3 extends AutoBase {
 
         waitForStart();
 
-        sleep(3000);
-
         // lift up
         dter.poll();
         lift.setTarget(2200);
@@ -51,7 +51,7 @@ public class AutoRight3 extends AutoBase {
                                 Distance.ZERO,
                                 Distance.inTiles(-1.5).add(Distance.inInches(2.5))
                         ),
-                        alignUsingDistSensors(distanceSensors)
+                        alignUsingDistSensors()
                 )
         ).run();
 
@@ -63,8 +63,7 @@ public class AutoRight3 extends AutoBase {
         wait.end();
 
         // let go of preload
-        hardware.claw.setPosition(0);
-        sleep(500);
+        hardware.claw.goTo(Claw.OPEN).run();
 
         // step back
         poser.moveBy(
@@ -94,33 +93,23 @@ public class AutoRight3 extends AutoBase {
                         )
                 ),
                 // and meanwhile prepare the grabber
-                Sequence.of(
-                        Action.fromFn(() -> {
-                            grabber.swivelTo(1 / 3.);
-                            grabber.wristTo(SimpleGrabber2.WristState.DOWN);
-                            grabber.openClaw();
-                        }),
-                        Wait.seconds(1)
-                )
+                hardware.swivel.goTo(Swivel.MIDDLE),
+                hardware.wrist.goTo(Wrist.State.DOWN),
+                hardware.claw.goTo(Claw.OPEN)
         ).run();
 
         // grab the sample
-        grabber.closeClaw();
-        sleep(250);
+        hardware.intake.goTo(IntakeClaw.CLOSED).run();
 
         ConcurrentSet.of(
                 // drop the sample into the bucket
                 Sequence.of(
-                        Action.fromFn(() -> {
-                            grabber.swivelTo(1);
-                            grabber.wristTo(SimpleGrabber2.WristState.BUCKET);
-                        }),
-                        Wait.seconds(1),
-                        Action.fromFn(grabber::openClaw),
-                        Wait.seconds(0.25),
-                        Action.fromFn(() -> {
-                            grabber.wristTo(SimpleGrabber2.WristState.UP);
-                        })
+                        ConcurrentSet.of(
+                                hardware.swivel.goTo(Swivel.BUCKET),
+                                hardware.wrist.goTo(Wrist.State.BUCKET)
+                        ),
+                        hardware.intake.goTo(IntakeClaw.OPEN),
+                        hardware.wrist.goTo(Wrist.State.UP)
                 ),
                 // and meanwhile move to the observation zone
                 poser.moveBy(
@@ -130,13 +119,12 @@ public class AutoRight3 extends AutoBase {
         ).run();
 
         // drop the sample into the observation zone
-        hardware.bucketL.setPosition(1);
-        sleep(1000);
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.goTo(Bucket.UP).run();
+        hardware.bucket.setPosition(Bucket.DOWN);
 
         sleep(5000);
 
-        grabber.wristTo(SimpleGrabber2.WristState.BUCKET);
+        hardware.wrist.setPosition(Wrist.State.BUCKET);
 
         dter.poll();
         lift.setTarget(200);
@@ -148,8 +136,7 @@ public class AutoRight3 extends AutoBase {
                 ).withStuckCheck()
         ).run();
 
-        hardware.claw.setPosition(1);
-        sleep(500);
+        hardware.claw.goTo(Claw.CLOSED).run();
 
         dter.poll();
         lift.setTarget(2200);
@@ -163,7 +150,7 @@ public class AutoRight3 extends AutoBase {
                                 Distance.inTiles(-1.5).add(Distance.inInches(2.5)),
                                 Angle.RIGHT
                         ).turningCcw(),
-                        alignUsingDistSensors(distanceSensors)
+                        alignUsingDistSensors()
                 )
         ).run();
 
@@ -175,8 +162,7 @@ public class AutoRight3 extends AutoBase {
         wait.end();
 
         // let go of specimen
-        hardware.claw.setPosition(0);
-        sleep(500);
+        hardware.claw.goTo(Claw.OPEN).run();
 
         // step back
         poser.moveBy(
@@ -199,7 +185,7 @@ public class AutoRight3 extends AutoBase {
         ).run();
     }
 
-    private Action alignUsingDistSensors(DistanceSensors distanceSensors) {
+    private Action alignUsingDistSensors() {
         return new Action() {
             boolean doneWaiting = false;
             final Wait waiter = Wait.seconds(0.5);
@@ -211,8 +197,8 @@ public class AutoRight3 extends AutoBase {
             public ControlFlow update() {
                 if (!doneWaiting) {
                     if (waiter.update().shouldContinue()) {
-                        distanceSensors.doI2cRead();
-                        avg = avg.add(distanceSensors.distanceFromTarget());
+                        hardware.dist.doI2cRead();
+                        avg = avg.add(hardware.dist.distanceFromTarget());
                         count++;
                         return ControlFlow.CONTINUE;
                     } else {

@@ -1,19 +1,25 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Drivetrain;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Imu;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 public class TeleDrive {
-    private Hardware hardware;
-    private Drive drive;
+    private Drivetrain drive;
+    private Imu imu;
     private double speed;
     private boolean fieldOriented = false;
     private Angle yawOffset = Angle.ZERO;
 
-    public TeleDrive(Hardware hw, double speed) {
-        this.hardware = hw;
-        this.drive = new Drive(hw);
+    public TeleDrive(Hardware hardware, double speed) {
+        this(hardware.drivetrain, hardware.imu, speed);
+    }
+
+    public TeleDrive(Drivetrain drive, Imu imu, double speed) {
+        this.drive = drive;
+        this.imu = imu;
         this.speed = speed;
     }
 
@@ -38,7 +44,7 @@ public class TeleDrive {
     }
 
     public void resetYaw() {
-        yawOffset = hardware.getYaw();
+        yawOffset = imu.getYaw();
     }
 
     /**
@@ -60,7 +66,7 @@ public class TeleDrive {
      */
     public void drive(Vector2 pow, double turn) {
         if (getFieldOriented()) {
-            pow = pow.rot(hardware.getYaw().sub(yawOffset).neg());
+            pow = pow.rot(imu.getYaw().sub(yawOffset).neg());
         }
 
         drive.drive(pow.mul(speed), turn * speed);

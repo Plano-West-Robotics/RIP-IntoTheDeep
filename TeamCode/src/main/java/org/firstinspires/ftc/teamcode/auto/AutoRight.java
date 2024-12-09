@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.hardware.Swivel;
+import org.firstinspires.ftc.teamcode.hardware.Wrist;
 import org.firstinspires.ftc.teamcode.macro.Wait;
-import org.firstinspires.ftc.teamcode.subsystems.DistanceSensors;
-import org.firstinspires.ftc.teamcode.subsystems.SimpleGrabber2;
+import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
@@ -14,16 +15,12 @@ public class AutoRight extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
         super.setup(LeftOrRight.RIGHT, true);
-        hardware.claw.setPosition(1);
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.down();
 
-        DistanceSensors distanceSensors = new DistanceSensors(hardware);
-        SimpleGrabber2 grabber = new SimpleGrabber2(hardware);
+        ControlledLift lift = new ControlledLift(hardware);
         DeltaTimer dter = new DeltaTimer();
 
         waitForStart();
-
-        sleep(4000); // for tech turb (comment in case i accidentally commit this)
 
         dter.poll();
         lift.setTarget(2200);
@@ -37,8 +34,8 @@ public class AutoRight extends AutoBase {
         Distance avg = Distance.ZERO;
         int count = 0;
         while (wait.update().shouldContinue()) {
-            distanceSensors.doI2cRead();
-            avg = avg.add(distanceSensors.distanceFromTarget());
+            hardware.dist.doI2cRead();
+            avg = avg.add(hardware.dist.distanceFromTarget());
             count++;
         }
         avg = avg.div(count);
@@ -78,27 +75,27 @@ public class AutoRight extends AutoBase {
                 Distance.ZERO
         ).run();
 
-        grabber.swivelTo(1/3.);
-        grabber.wristTo(SimpleGrabber2.WristState.DOWN);
-        grabber.openClaw();
+        hardware.swivel.setPosition(Swivel.MIDDLE);
+        hardware.wrist.setPosition(Wrist.State.DOWN);
+        hardware.intake.open();
         sleep(1000);
-        grabber.closeClaw();
+        hardware.intake.close();
         sleep(250);
-        grabber.swivelTo(1);
-        grabber.wristTo(SimpleGrabber2.WristState.BUCKET);
+        hardware.swivel.setPosition(Swivel.BUCKET);
+        hardware.wrist.setPosition(Wrist.State.BUCKET);
         sleep(1000);
-        grabber.openClaw();
+        hardware.intake.open();
         sleep(500);
-        grabber.wristTo(SimpleGrabber2.WristState.UP);
+        hardware.wrist.setPosition(Wrist.State.UP);
 
         poser.moveBy(
                 Distance.inInches(-15),
                 Distance.ZERO
         ).run();
 
-        hardware.bucketL.setPosition(1);
+        hardware.bucket.up();
         sleep(1500);
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.down();
 
         // start grabbing second sample
         poser.goToX(Distance.inTiles(2.5)).run();
@@ -108,24 +105,24 @@ public class AutoRight extends AutoBase {
                 Distance.ZERO
         ).run();
 
-        grabber.wristTo(SimpleGrabber2.WristState.DOWN);
+        hardware.wrist.setPosition(Wrist.State.DOWN);
         sleep(1000);
-        grabber.closeClaw();
+        hardware.intake.close();
         sleep(250);
-        grabber.swivelTo(1);
-        grabber.wristTo(SimpleGrabber2.WristState.BUCKET);
+        hardware.swivel.setPosition(Swivel.BUCKET);
+        hardware.wrist.setPosition(Wrist.State.BUCKET);
         sleep(1000);
-        grabber.openClaw();
+        hardware.intake.open();
         sleep(500);
-        grabber.wristTo(SimpleGrabber2.WristState.UP);
+        hardware.wrist.setPosition(Wrist.State.UP);
 
         poser.moveBy(
                 Distance.inInches(-15),
                 Distance.ZERO
         ).run();
 
-        hardware.bucketL.setPosition(1);
+        hardware.bucket.up();
         sleep(1500);
-        hardware.bucketL.setPosition(0);
+        hardware.bucket.down();
     }
 }

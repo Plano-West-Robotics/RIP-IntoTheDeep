@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.poser;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.macro.Action;
 import org.firstinspires.ftc.teamcode.macro.ControlFlow;
 import org.firstinspires.ftc.teamcode.poser.DriveEncoderLocalizer;
@@ -52,15 +52,7 @@ public class Poser {
 
     public void move(double powerX, double powerY, double turn) {
         double scale = Math.max(1, Math.abs(powerX) + Math.abs(powerY) + Math.abs(turn));
-        double flPower = (powerX - powerY - turn) / scale;
-        double frPower = (powerX + powerY + turn) / scale;
-        double blPower = (powerX + powerY - turn) / scale;
-        double brPower = (powerX - powerY + turn) / scale;
-
-        this.hardware.fl.setPower(flPower);
-        this.hardware.fr.setPower(frPower);
-        this.hardware.bl.setPower(blPower);
-        this.hardware.br.setPower(brPower);
+        this.hardware.drivetrain.drive(powerX / scale, powerY / scale, turn / scale);
     }
 
     private static void drawLine(Canvas canvas, Distance2 p1, Distance2 p2) {
