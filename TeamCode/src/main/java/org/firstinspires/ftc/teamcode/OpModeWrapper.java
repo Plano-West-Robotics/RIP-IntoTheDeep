@@ -11,7 +11,7 @@ public abstract class OpModeWrapper extends OpMode {
 
     @Override
     public final void init() {
-        this.hardware = new Hardware(this);
+        this.hardware = new Hardware(this, Hardware.InitialConfiguration.TELEOP);
         this.gamepads = new Gamepads(this.gamepad1, this.gamepad2);
 
         this.setup();

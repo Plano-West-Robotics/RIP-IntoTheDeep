@@ -23,7 +23,8 @@ public class Intake {
     private boolean goingToTarget;
 
     public Intake(Hardware hardware) {
-        this(hardware.extend, new Grabber(hardware));
+        // TODO:
+        this(hardware.extend, new Grabber(hardware, Hardware.InitialConfiguration.AUTO));
     }
 
     public Intake(Extendo extendo, Grabber grabber) {
@@ -93,11 +94,11 @@ public class Intake {
                     if (this.target < 0) k = EXTEND_THRESH;
                     else k = this.target;
                 }
-                this.extendo.goTo(k);
+                this.extendo.setPosition(k);
 
                 if (k == EXTEND_THRESH && neg) {
                     this.state = State.IN;
-                    this.grabber.toBucket();
+                    this.grabber.toTransfer();
                 }
                 break;
             case IN:
@@ -107,7 +108,7 @@ public class Intake {
                     this.grabber.toUp();
                 } else if (!this.grabber.isBusy() && !this.extendo.isBusy()) {
                     this.state = State.BUCKET;
-                    this.grabber.openClawAtBucket();
+                    this.grabber.openClawAtTransfer();
                 }
                 break;
             case BUCKET:
@@ -124,7 +125,7 @@ public class Intake {
             case OUT:
                 if (neg) {
                     this.state = State.IN;
-                    this.grabber.toBucket();
+                    this.grabber.toTransfer();
                 } else if (!this.extendo.isBusy()) {
                     this.state = State.CONTINUUM;
                     if (this.goingToTarget) {

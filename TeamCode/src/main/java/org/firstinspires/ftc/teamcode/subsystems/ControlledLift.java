@@ -11,19 +11,22 @@ public class ControlledLift {
     // 4139 -> 43 in
     // 4675 -> highest
 
+    // 1575 -> high chamber with outtake arm
+
 //    public static final Distance MIN_HEIGHT = Distance.inInches(6.5);
     public static final int MIN_TICKS = 0;
 //    public static final Distance MAX_HEIGHT = Distance.inInches(45.3);
     public static final int MAX_TICKS = 4200;
 //    public static final Distance DIST_PER_TICK = (MAX_HEIGHT.sub(MIN_HEIGHT)).div(MAX_TICKS - MIN_TICKS);
 
-    private static final double GRAVITY_FEEDFORWARD = 0.09;
-    private static final int DELTA = 300;
+    private static final double GRAVITY_FEEDFORWARD = 0.10;
+    private static final int DELTA = 200;
 
     private final Lift inner;
     private int current;
     private int leftEncoder;
     private int rightEncoder;
+    private boolean downLastUpdate;
 
     private double power;
     private boolean override;
@@ -47,6 +50,7 @@ public class ControlledLift {
         this.current = initial;
         this.leftEncoder = this.inner.leftEncoder();
         this.rightEncoder = this.inner.rightEncoder();
+        this.downLastUpdate = this.inner.isLeftDown() || this.inner.isRightDown();
 
         this.power = 0;
         this.override = false;
@@ -74,10 +78,17 @@ public class ControlledLift {
         this.leftEncoder = newLeftEncoder;
         this.rightEncoder = newRightEncoder;
 
-        this.current += (dl + dr) / 2;
+        boolean down = this.inner.isLeftDown() || this.inner.isRightDown();
+        if (down && !this.downLastUpdate) this.current = MIN_TICKS + 20;
+        if (!down && this.downLastUpdate) this.current = MIN_TICKS + 30;
+        this.downLastUpdate = down;
 
-        if (this.inner.isLeftDown() || this.inner.isRightDown()) {
-            this.current = MIN_TICKS + 30;
+        this.current += (dl + dr) / 2;
+        this.current = Math.max(this.current, 0);
+        if (down) {
+            this.current = Math.min(this.current, 30);
+        } else {
+            this.current = Math.max(this.current, 30);
         }
 
         double outPower;
@@ -88,7 +99,11 @@ public class ControlledLift {
             if (this.isGoingToTarget) {
                 int error = target - this.current;
                 outPower = sigmoidCtrl(error);
-                if (Math.abs(error) <= 30) { // TODO: i want this to be 25 but that breaks with the 30 above
+                if (this.target == MIN_TICKS) {
+                    outPower = Math.min(outPower, -0.2);
+                }
+
+                if (Math.abs(error) <= 25) {
                     isGoingToTarget = false;
                     outPower = power;
                 }

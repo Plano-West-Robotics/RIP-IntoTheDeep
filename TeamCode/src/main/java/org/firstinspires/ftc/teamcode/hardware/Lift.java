@@ -10,7 +10,7 @@ public class Lift {
     private final DcMotorEx liftL, liftR;
     private final RevTouchSensor limitL, limitR;
 
-    public Lift(HardwareMap hardwareMap) {
+    public Lift(HardwareMap hardwareMap, Hardware.InitialConfiguration _initial) {
         this.liftL = hardwareMap.get(DcMotorEx.class, "liftL");
         this.liftR = hardwareMap.get(DcMotorEx.class, "liftR");
         this.limitL = hardwareMap.get(RevTouchSensor.class, "liftLimitL");

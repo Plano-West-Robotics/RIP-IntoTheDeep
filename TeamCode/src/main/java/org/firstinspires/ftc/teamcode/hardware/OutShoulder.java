@@ -7,10 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.macro.Action;
 
-//public class Wrist extends TimedServo.Pair {
-public class Wrist extends TimedServo {
+public class OutShoulder extends TimedServo.Pair {
     public enum State {
-        BUCKET(1.0), UP(0.42), DOWN(0.0);
+        WALL(0.00), TRANSFER(0.23), PRE_TRANSFER(0.33), OUT(1.00);
 
         public final double pos;
         State(double pos) {
@@ -18,18 +17,18 @@ public class Wrist extends TimedServo {
         }
     }
 
-    public Wrist(HardwareMap hardwareMap) {
-        // calibrated on 2024-12-06
-        //         down - up
-        // wristL  0.05 - 1.00, port eh3
-        // wristR  0.95 - 0.00, port eh1
+    public OutShoulder(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
+        // calibrated on 2024-01-07
+        //              in - out
+        // shoulderL  1.00 - 0.00, port ch3
+        // shoulderR  0.00 - 1.00, port ch0
         super(
-                hardwareMap.get(Servo.class, "wristL"),
-//                hardwareMap.get(Servo.class, "wristR"),
+                hardwareMap.get(Servo.class, "shoulderL"),
+                hardwareMap.get(Servo.class, "shoulderR"),
                 1.1,
-                State.BUCKET.pos,
-                0.05, 1.00//,
-//                0.95, 0.00
+                initial.branch(State.WALL.pos, State.TRANSFER.pos, State.WALL.pos),
+                1.00, 0.00,
+                0.00, 1.00
         );
     }
 

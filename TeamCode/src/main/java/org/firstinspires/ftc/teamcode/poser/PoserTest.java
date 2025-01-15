@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.units.Pose;
 public class PoserTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Hardware hardware = new Hardware(this);
+        Hardware hardware = new Hardware(this, Hardware.InitialConfiguration.AUTO);
         Poser poser = new Poser(hardware, 0.5, false, new Pose(Distance2.ZERO, Angle.ZERO));
 
         while (!isStarted()) {

@@ -18,13 +18,10 @@ public abstract class AutoBase extends LinearOpMode {
     }
 
     public void setup(LeftOrRight location, boolean withSpecimen) {
-        this.hardware = new Hardware(this);
-
-        if (withSpecimen) {
-            hardware.claw.close();
-        } else {
-            hardware.claw.open();
-        }
+        this.hardware = new Hardware(
+                this,
+                withSpecimen ? Hardware.InitialConfiguration.AUTO_PRELOAD : Hardware.InitialConfiguration.AUTO
+        );
 
         // starting pose calculations
 

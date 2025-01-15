@@ -105,7 +105,7 @@ public class TimedServo {
                 double minL, double maxL,
                 double minR, double maxR
         ) {
-            assert Math.abs(maxL - minL) == Math.abs(maxR - minR);
+            assert Math.abs(maxL - minL) - Math.abs(maxR - minR) < 0.0001;
             scaleServo(left, minL, maxL);
             scaleServo(right, minR, maxR);
             this.left = left;
