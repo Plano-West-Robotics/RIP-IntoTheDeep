@@ -8,13 +8,13 @@ public class OutClaw extends TimedServo {
     public static final double CLOSED = 1.0;
 
     public OutClaw(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-01-07
-        // claw: open 0.25 - closed 0.58, port ch1
+        // calibrated on 2025-01-15
+        // claw: open 0.25 - closed 0.60, port ch1
         super(
                 hardwareMap.get(Servo.class, "outClaw"),
                 1, // TODO:
                 initial.branch(OPEN, OPEN, CLOSED),
-                0.25, 0.58
+                0.25, 0.60
         );
     }
 

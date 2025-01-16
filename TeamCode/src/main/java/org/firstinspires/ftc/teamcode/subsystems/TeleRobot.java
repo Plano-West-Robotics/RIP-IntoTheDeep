@@ -12,7 +12,7 @@ public class TeleRobot {
     private final Arm arm;
 
     private static final double EXTEND_THRESH = 0.1;
-    private static final int LIFT_HI_CHAMBER = 1475;
+    private static final int LIFT_HI_CHAMBER = 1400;
 
     private enum State {
         IDLE, // outtake @ wall, intake @ in, out claw open, in claw open
@@ -195,7 +195,7 @@ public class TeleRobot {
                 if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
                     this.helperToSamplePickup();
-                    this.lift.setTarget(ControlledLift.MIN_TICKS);
+//                    this.lift.setTarget(ControlledLift.MIN_TICKS);
                 } else if (sampleDropButton) {
                     state = State.SAMPLE_RETRACT_1;
                     this.arm.drop();

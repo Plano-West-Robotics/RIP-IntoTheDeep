@@ -17,6 +17,6 @@ public class Controls {
     public static Gamepads.Button SLIDES_SLOW_MODE = Gamepads.Button.GP2_LEFT_TRIGGER;
     public static Gamepads.Button INTAKE_TOGGLE_DOWN = Gamepads.Button.GP2_SQUARE;
     public static Gamepads.Button INTAKE_BUMP_LEFT = Gamepads.Button.GP2_LEFT_BUMPER;
-    public static Gamepads.Button INTAKE_BUMP_RIGHT = Gamepads.Button.GP2_RIGHT_BUMPER;
+    public static Gamepads.Button INTAKE_BUMP_RIGHT = Gamepads.Button.GP2_LEFT_TRIGGER;
     public static Gamepads.Button DROP_SAMPLE = Gamepads.Button.GP2_CROSS;
 }
