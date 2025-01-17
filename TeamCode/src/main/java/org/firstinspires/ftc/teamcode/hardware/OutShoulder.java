@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutShoulder extends TimedServo.Pair {
     public enum State {
-        WALL(0.00), TRANSFER(0.23), PRE_TRANSFER(0.33), OUT(1.00);
+        WALL(0.04), TRANSFER(0.23), PRE_TRANSFER(0.33), OUT(1.00);
 
         public final double pos;
         State(double pos) {
@@ -18,7 +18,7 @@ public class OutShoulder extends TimedServo.Pair {
     }
 
     public OutShoulder(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-01-07
+        // calibrated on 2024-01-16
         //              in - out
         // shoulderL  1.00 - 0.00, port ch3
         // shoulderR  0.00 - 1.00, port ch0

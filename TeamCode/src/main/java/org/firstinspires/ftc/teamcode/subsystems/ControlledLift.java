@@ -109,6 +109,9 @@ public class ControlledLift {
                 }
             } else {
                 outPower = power;
+                if (power <= 0.0 && this.current <= 30) {
+                    outPower = Math.min(outPower, -0.2);
+                }
             }
 
             outPower = Range.clip(

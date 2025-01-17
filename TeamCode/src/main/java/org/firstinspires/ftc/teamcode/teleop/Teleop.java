@@ -69,6 +69,7 @@ public class Teleop extends OpModeWrapper {
 
         if (gamepads.justPressed(Controls.SPECIMEN_CYCLE)) robot.pressSpecimenCycleButton();
 
+        drive.update(dt);
         robot.update(dt);
     }
 }

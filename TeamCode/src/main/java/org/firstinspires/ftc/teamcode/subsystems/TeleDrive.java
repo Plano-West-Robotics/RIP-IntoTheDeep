@@ -7,11 +7,17 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 public class TeleDrive {
-    private Drivetrain drive;
-    private Imu imu;
+    private final Drivetrain drive;
+    private final Imu imu;
+
     private double speed;
     private boolean fieldOriented = false;
-    private Angle yawOffset = Angle.ZERO;
+    private Angle yawOffset;
+    private Angle targetYaw;
+    private double turnAssistTime;
+
+    private Vector2 pow;
+    private double turn;
 
     public TeleDrive(Hardware hardware, double speed) {
         this(hardware.drivetrain, hardware.imu, speed);
@@ -21,6 +27,11 @@ public class TeleDrive {
         this.drive = drive;
         this.imu = imu;
         this.speed = speed;
+        this.yawOffset = this.targetYaw = imu.getYaw();
+        this.turnAssistTime = 0.0;
+
+        this.pow = Vector2.ZERO;
+        this.turn = 0.0;
     }
 
     public void setSpeed(double newSpeed) {
@@ -65,14 +76,33 @@ public class TeleDrive {
      * @param turn ccw is positive
      */
     public void drive(Vector2 pow, double turn) {
-        if (getFieldOriented()) {
-            pow = pow.rot(imu.getYaw().sub(yawOffset).neg());
-        }
-
-        drive.drive(pow.mul(speed), turn * speed);
+        this.pow = pow;
+        this.turn = turn;
     }
 
-    public void stop() {
-        drive.stop();
+    public void update(double dt) {
+        Angle currYaw = imu.getYaw();
+
+        if (turn == 0.0) {
+            turnAssistTime -= dt;
+            turnAssistTime = Math.max(turnAssistTime, 0.0);
+        } else {
+            turnAssistTime = 0.5; // secs until turn assist kicks in
+        }
+
+        Vector2 localPow = pow.mul(speed);
+        if (fieldOriented) {
+            localPow = localPow.rot(currYaw.sub(yawOffset).neg());
+        }
+
+        double localTurn;
+        if (turnAssistTime == 0.0) {
+            localTurn = Math.tanh(targetYaw.sub(currYaw).modSigned().div(Angle.inDegrees(25)));
+        } else {
+            localTurn = turn * speed;
+            targetYaw = currYaw;
+        }
+
+        drive.drive(localPow, localTurn);
     }
 }
