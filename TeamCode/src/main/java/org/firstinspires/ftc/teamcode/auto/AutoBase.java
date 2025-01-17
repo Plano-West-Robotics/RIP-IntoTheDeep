@@ -56,6 +56,6 @@ public abstract class AutoBase extends LinearOpMode {
             initialPose = initialPose.then(new Pose(Distance2.ZERO, Angle.BACKWARD));
         }
 
-        this.poser = new Poser(hardware, 0.9, false, initialPose);
+        this.poser = new Poser(hardware, 1.0, false, initialPose);
     }
 }

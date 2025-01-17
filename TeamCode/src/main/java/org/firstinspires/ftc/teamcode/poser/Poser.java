@@ -132,8 +132,8 @@ public class Poser {
     public class Motion implements Action {
         private static final double TIME_LIMIT = 2;
 
-        protected final PIDController xCtrl = new PIDController(2.0, 0, 0.25);
-        protected final PIDController yCtrl = new PIDController(2.0, 0, 0.25);
+        protected final PIDController xCtrl = new PIDController(2.5, 0, 0.25);
+        protected final PIDController yCtrl = new PIDController(2.5, 0, 0.25);
         protected final PIDController yawCtrl = new PIDController(1.5, 0, 0.15);
         protected Pose target;
         private RotationDirection rotationDirection;
