@@ -11,8 +11,6 @@ public class TeleDrive {
     private final Imu imu;
 
     private double speed;
-    private boolean fieldOriented = false;
-    private Angle yawOffset;
     private Angle targetYaw;
     private double turnAssistTime;
 
@@ -27,7 +25,7 @@ public class TeleDrive {
         this.drive = drive;
         this.imu = imu;
         this.speed = speed;
-        this.yawOffset = this.targetYaw = imu.getYaw();
+        this.targetYaw = imu.getYaw();
         this.turnAssistTime = 0.0;
 
         this.pow = Vector2.ZERO;
@@ -40,22 +38,6 @@ public class TeleDrive {
 
     public double getSpeed() {
         return speed;
-    }
-
-    public void setFieldOriented(boolean newFO) {
-        fieldOriented = newFO;
-    }
-
-    public boolean getFieldOriented() {
-        return fieldOriented;
-    }
-
-    public void toggleFieldOriented() {
-        setFieldOriented(!getFieldOriented());
-    }
-
-    public void resetYaw() {
-        yawOffset = imu.getYaw();
     }
 
     /**
@@ -91,9 +73,6 @@ public class TeleDrive {
         }
 
         Vector2 localPow = pow.mul(speed);
-        if (fieldOriented) {
-            localPow = localPow.rot(currYaw.sub(yawOffset).neg());
-        }
 
         double localTurn;
         if (turnAssistTime == 0.0) {

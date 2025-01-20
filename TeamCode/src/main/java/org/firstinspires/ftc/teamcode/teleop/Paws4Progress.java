@@ -16,7 +16,6 @@ public class Paws4Progress extends OpModeWrapper {
     @Override
     public void setup() {
         drive = new TeleDrive(hardware, 0.4);
-        drive.setFieldOriented(false);
     }
 
     @SuppressLint("DefaultLocale")
@@ -28,6 +27,5 @@ public class Paws4Progress extends OpModeWrapper {
         drive.drive(new Vector2(x, y), turn);
 
         telemetry.addData("Drive speed", String.format("%.2f", drive.getSpeed()));
-        telemetry.addData("Field oriented enabled", drive.getFieldOriented());
     }
 }

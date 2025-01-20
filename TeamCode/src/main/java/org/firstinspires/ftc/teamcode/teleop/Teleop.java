@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.OpModeWrapper;
+import org.firstinspires.ftc.teamcode.subsystems.FieldOrienter;
 import org.firstinspires.ftc.teamcode.subsystems.TeleDrive;
 import org.firstinspires.ftc.teamcode.subsystems.TeleRobot;
 import org.firstinspires.ftc.teamcode.units.Vector2;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 @TeleOp(name = "DDDDDDDDD")
 public class Teleop extends OpModeWrapper {
     TeleDrive drive;
+    FieldOrienter fieldOrienter;
     TeleRobot robot;
     DeltaTimer time;
 
@@ -24,7 +26,7 @@ public class Teleop extends OpModeWrapper {
     @Override
     public void setup() {
         drive = new TeleDrive(hardware, MID_SPEED);
-        drive.setFieldOriented(true);
+        fieldOrienter = new FieldOrienter(hardware);
         robot = new TeleRobot(hardware);
         time = new DeltaTimer(false);
     }
@@ -33,6 +35,8 @@ public class Teleop extends OpModeWrapper {
     @Override
     public void run() {
         double dt = time.poll();
+
+        fieldOrienter.update();
 
         if (gamepads.isPressed(Controls.SLOW_MODE)) {
             drive.setSpeed(LOW_SPEED);
@@ -44,13 +48,15 @@ public class Teleop extends OpModeWrapper {
 
         double x = gamepads.getAnalogValue(Controls.STRAIGHT);
         double y = -gamepads.getAnalogValue(Controls.STRAFE);
-        Vector2 pow = new Vector2(x, y);
+        Vector2 pow = fieldOrienter.fieldToRobot(new Vector2(x, y));
+        if (robot.driver2ShouldHaveDrivetrainControl()) {
+            pow = pow.add(new Vector2(0, -gamepads.getAnalogValue(Controls.STRAFE_2)));
+        }
         double turn = -gamepads.getAnalogValue(Controls.TURN);
         drive.drive(pow, turn);
 
-        if (gamepads.justPressed(Controls.YAW_RESET)) drive.resetYaw();
+        if (gamepads.justPressed(Controls.YAW_RESET)) fieldOrienter.reset();
 
-        telemetry.addData("Field oriented enabled", drive.getFieldOriented());
         telemetry.addData("Yaw", hardware.imu.getYaw().valInDegrees());
 
         double slidePow = gamepads.getAnalogValue(Controls.SLIDES);

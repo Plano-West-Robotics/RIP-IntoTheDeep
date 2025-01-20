@@ -104,6 +104,10 @@ public class TeleRobot {
         }
     }
 
+    public boolean driver2ShouldHaveDrivetrainControl() {
+        return state == State.SAMPLE_PICKUP;
+    }
+
     private void helperToSamplePickup() {
         this.extend.setPosition(extendPos);
         if (grabberDown) this.grabber.toDown();
