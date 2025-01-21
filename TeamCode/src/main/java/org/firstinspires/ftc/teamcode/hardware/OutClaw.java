@@ -12,7 +12,7 @@ public class OutClaw extends TimedServo {
         // claw: open 0.25 - closed 0.58, port ch1
         super(
                 hardwareMap.get(Servo.class, "outClaw"),
-                1, // TODO:
+                (0.33)/(0.40), // TODO:
                 initial.branch(OPEN, OPEN, CLOSED),
                 0.25, 0.58
         );

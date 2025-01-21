@@ -26,7 +26,7 @@ public class InWrist extends TimedServo {
         super(
                 hardwareMap.get(Servo.class, "inWristL"),
 //                hardwareMap.get(Servo.class, "inWristR"),
-                1.1,
+                1/(1.20),
                 initial.branch(State.IN.pos, State.TRANSFER.pos, State.IN.pos),
                 0.05, 1.00//,
 //                0.95, 0.00

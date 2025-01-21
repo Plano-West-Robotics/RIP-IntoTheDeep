@@ -12,7 +12,7 @@ public class InClaw extends TimedServo {
         // intake: closed 0.32 - open 0.60, port eh4
         super(
                 hardwareMap.get(Servo.class, "inClaw"),
-                1.3,
+                0.28/(0.20),
                 initial.branch(OPEN, OPEN, OPEN),
                 0.32, 0.60
         );

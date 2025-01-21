@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
-@Autonomous(name = "Right Auto (1+3 spec)", preselectTeleOp = "DDDDDDDDD")
+@Autonomous(name = "Right Auto (4 spec)", preselectTeleOp = "DDDDDDDDD")
 public class AutoRight4 extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {

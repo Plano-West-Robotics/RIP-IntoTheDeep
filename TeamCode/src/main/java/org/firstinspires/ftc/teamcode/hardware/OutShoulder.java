@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutShoulder extends TimedServo.Pair {
     public enum State {
-        WALL(0.04), TRANSFER(0.23), PRE_TRANSFER(0.33), OUT(1.00);
-
+        WALL(0.04), TRANSFER(0.25), PRE_TRANSFER(0.33), OUT(1.00);
+// transfer was 0.23
         public final double pos;
         State(double pos) {
             this.pos = pos;
@@ -25,7 +25,7 @@ public class OutShoulder extends TimedServo.Pair {
         super(
                 hardwareMap.get(Servo.class, "shoulderL"),
                 hardwareMap.get(Servo.class, "shoulderR"),
-                1.1,
+                (0.96)/(1.05),
                 initial.branch(State.WALL.pos, State.TRANSFER.pos, State.WALL.pos),
                 1.00, 0.00,
                 0.00, 1.00

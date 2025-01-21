@@ -29,7 +29,7 @@ public class OutWrist extends TimedServo {
         // if a tooth skips, +0.1 to all of those
         super(
                 hardwareMap.get(Servo.class, "outWrist"),
-                1.1,
+                (0.75)/(0.90),
                 initial.branch(State.WALL.pos, State.TRANSFER.pos, State.CHAMBER.pos /* :/ */),
                 0.16, 0.91
         );

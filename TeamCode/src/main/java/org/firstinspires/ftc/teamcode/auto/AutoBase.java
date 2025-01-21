@@ -17,10 +17,10 @@ public abstract class AutoBase extends LinearOpMode {
         LEFT, RIGHT
     }
 
-    public void setup(LeftOrRight location, boolean withSpecimen) {
+    public void setup(LeftOrRight location, boolean withPreload) {
         this.hardware = new Hardware(
                 this,
-                withSpecimen ? Hardware.InitialConfiguration.AUTO_PRELOAD : Hardware.InitialConfiguration.AUTO
+                withPreload ? Hardware.InitialConfiguration.AUTO_PRELOAD : Hardware.InitialConfiguration.AUTO
         );
 
         // starting pose calculations
@@ -52,7 +52,7 @@ public abstract class AutoBase extends LinearOpMode {
                 Angle.ZERO
         ));
 
-        if (withSpecimen) {
+        if (withPreload && location.equals(LeftOrRight.RIGHT)) {
             initialPose = initialPose.then(new Pose(Distance2.ZERO, Angle.BACKWARD));
         }
 

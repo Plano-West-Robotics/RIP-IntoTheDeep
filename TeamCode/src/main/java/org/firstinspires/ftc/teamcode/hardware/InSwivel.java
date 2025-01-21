@@ -18,7 +18,7 @@ public class InSwivel extends TimedServo {
         // bucket: 1.0
         super(
                 hardwareMap.get(Servo.class, "inSwivel"),
-                1.0, // TODO:
+                1/(0.60), // TODO:
                 initial.branch(TRANSFER, TRANSFER, TRANSFER),
                 0.00, 1.00
         );
