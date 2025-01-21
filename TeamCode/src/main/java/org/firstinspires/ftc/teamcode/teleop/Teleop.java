@@ -20,8 +20,7 @@ public class Teleop extends OpModeWrapper {
 
     private static final double MID_SPEED = 0.7;
     private static final double LOW_SPEED = 0.3;
-
-    private static final double SLOW_SLIDES = 0.3;
+    private static final double DRIVER_2_STRAFE_SPEED = 0.5;
 
     @Override
     public void setup() {
@@ -50,7 +49,7 @@ public class Teleop extends OpModeWrapper {
         double y = -gamepads.getAnalogValue(Controls.STRAFE);
         Vector2 pow = fieldOrienter.fieldToRobot(new Vector2(x, y));
         if (robot.driver2ShouldHaveDrivetrainControl()) {
-            pow = pow.add(new Vector2(0, -gamepads.getAnalogValue(Controls.STRAFE_2)));
+            pow = pow.add(new Vector2(0, -gamepads.getAnalogValue(Controls.STRAFE_2) * DRIVER_2_STRAFE_SPEED));
         }
         double turn = -gamepads.getAnalogValue(Controls.TURN);
         drive.drive(pow, turn);
@@ -60,7 +59,7 @@ public class Teleop extends OpModeWrapper {
         telemetry.addData("Yaw", hardware.imu.getYaw().valInDegrees());
 
         double slidePow = gamepads.getAnalogValue(Controls.SLIDES);
-        robot.setSlidePow(slidePow * (gamepads.isPressed(Controls.SLIDES_SLOW_MODE) ? SLOW_SLIDES : 1));
+        robot.setSlidePow(slidePow);
         robot.setExtendTrigger(gamepads.isPressed(Controls.EXTEND));
 
         if (gamepads.justPressed(Controls.INTAKE_TOGGLE_DOWN)) robot.grabberToggleDown();
@@ -74,6 +73,10 @@ public class Teleop extends OpModeWrapper {
         if (gamepads.justPressed(Controls.DROP_SAMPLE)) robot.pressSampleDropButton();
 
         if (gamepads.justPressed(Controls.SPECIMEN_CYCLE)) robot.pressSpecimenCycleButton();
+
+        if (gamepads.justPressed(Controls.FULL_SEQUENCE_MODE)) robot.pressFullSequenceModeButton();
+
+        if (gamepads.justPressed(Controls.HALF_SEQUENCE_MODE)) robot.pressHalfSequenceModeButton();
 
         drive.update(dt);
         robot.update(dt);

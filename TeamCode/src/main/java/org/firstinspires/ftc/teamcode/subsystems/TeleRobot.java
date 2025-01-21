@@ -41,6 +41,7 @@ public class TeleRobot {
     private boolean sampleDropButton;
     private double slidePow;
     private boolean specimenCycleButton;
+    private boolean halfSequenceMode;
 
     public TeleRobot(Hardware hardware) {
         this(
@@ -79,6 +80,14 @@ public class TeleRobot {
 
     public void pressSpecimenCycleButton() {
         this.specimenCycleButton = true;
+    }
+
+    public void pressHalfSequenceModeButton() {
+        this.halfSequenceMode = true;
+    }
+
+    public void pressFullSequenceModeButton() {
+        this.halfSequenceMode = false;
     }
 
     public void swivelBumpLeft() {
@@ -148,7 +157,7 @@ public class TeleRobot {
                 } else if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
                     this.helperToSamplePickup();
-                } else if (!this.extend.isBusy() && !this.grabber.isBusy() && !this.lift.isBusy() && !this.arm.isBusy()) {
+                } else if (!halfSequenceMode && !this.extend.isBusy() && !this.grabber.isBusy() && !this.lift.isBusy() && !this.arm.isBusy()) {
                     state = State.SAMPLE_TRANSFER_1;
                     this.arm.grab();
                 }

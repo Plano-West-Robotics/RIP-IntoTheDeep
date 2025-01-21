@@ -14,10 +14,11 @@ public class Controls {
     // ======================= GAMEPAD 2 ============================
     public static Gamepads.Button EXTEND = Gamepads.Button.GP2_RIGHT_TRIGGER;
     public static Gamepads.AnalogInput SLIDES = Gamepads.AnalogInput.GP2_LEFT_STICK_Y;
-    public static Gamepads.AnalogInput STRAFE_2 = Gamepads.AnalogInput.GP2_LEFT_STICK_X;
-    public static Gamepads.Button SLIDES_SLOW_MODE = Gamepads.Button.GP2_TRIANGLE;
+    public static Gamepads.AnalogInput STRAFE_2 = Gamepads.AnalogInput.GP2_RIGHT_STICK_X;
     public static Gamepads.Button INTAKE_TOGGLE_DOWN = Gamepads.Button.GP2_SQUARE;
     public static Gamepads.Button INTAKE_BUMP_LEFT = Gamepads.Button.GP2_LEFT_BUMPER;
     public static Gamepads.Button INTAKE_BUMP_RIGHT = Gamepads.Button.GP2_LEFT_TRIGGER;
     public static Gamepads.Button DROP_SAMPLE = Gamepads.Button.GP2_CROSS;
+    public static Gamepads.Button HALF_SEQUENCE_MODE = Gamepads.Button.GP2_CIRCLE;
+    public static Gamepads.Button FULL_SEQUENCE_MODE = Gamepads.Button.GP2_TRIANGLE;
 }
