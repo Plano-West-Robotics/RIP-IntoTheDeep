@@ -250,4 +250,15 @@ public class Grabber {
                 return true;
         }
     }
+
+    public boolean isDefinitelyDown() {
+        switch (this.state) {
+            case DOWN:
+            case GRABBING_TO_UP:
+            case GRABBING_TO_TRANSFER:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

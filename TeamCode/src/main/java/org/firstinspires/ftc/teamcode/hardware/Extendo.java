@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Extendo extends TimedServo.Pair {
+    public static final double IN = 0.0;
+    public static final double OUT_GRABBER_UP = 0.74; // horizontal expansion limit
+    public static final double OUT_GRABBER_DOWN = 1.0;
+
     public Extendo(HardwareMap hardwareMap, Hardware.InitialConfiguration _initial) {
         // calibrated on 2024-12-06
         //            in - out

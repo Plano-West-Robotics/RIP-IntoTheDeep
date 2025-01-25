@@ -129,7 +129,7 @@ public class TeleRobot {
             case IDLE:
                 if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
-                    extendPos = 1.0;
+                    extendPos = Extendo.OUT_GRABBER_UP;
                     grabberDown = false;
                     this.helperToSamplePickup();
                 } else if (specimenCycleButton) {
@@ -145,7 +145,11 @@ public class TeleRobot {
                     this.arm.toTransfer();
                 } else {
                     extendPos += 1.0 * dt * slidePow;
-                    extendPos = Range.clip(extendPos, EXTEND_THRESH, 1.0);
+                    extendPos = Range.clip(
+                            extendPos,
+                            EXTEND_THRESH,
+                            this.grabber.isDefinitelyDown() ? Extendo.OUT_GRABBER_DOWN : Extendo.OUT_GRABBER_UP
+                    );
                     this.extend.setPosition(extendPos);
                 }
                 break;
@@ -226,7 +230,7 @@ public class TeleRobot {
             case SAMPLE_RETRACT_2:
                 if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
-                    extendPos = 1.0;
+                    extendPos = Extendo.OUT_GRABBER_UP;
                     grabberDown = false;
                     this.helperToSamplePickup();
                 } else if (!this.lift.isBusy() && !this.arm.isBusy()) {
@@ -236,7 +240,7 @@ public class TeleRobot {
             case SAMPLE_RETRACT_CANCEL:
                 if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
-                    extendPos = 1.0;
+                    extendPos = Extendo.OUT_GRABBER_UP;
                     grabberDown = false;
                     this.helperToSamplePickup();
                 } if (!this.extend.isBusy() && !this.grabber.isBusy()) {
