@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutWrist extends TimedServo {
     public enum State {
-        TRANSFER(0), BASKET(0.59), WALL(0.67), CHAMBER(1.0);
+        TRANSFER(0), BASKET(0.59), WALL(0.70), CHAMBER(1.00);
 
         public final double pos;
         State(double pos) {

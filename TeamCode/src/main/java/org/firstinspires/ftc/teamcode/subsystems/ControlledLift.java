@@ -20,7 +20,7 @@ public class ControlledLift {
 //    public static final Distance DIST_PER_TICK = (MAX_HEIGHT.sub(MIN_HEIGHT)).div(MAX_TICKS - MIN_TICKS);
 
     private static final double GRAVITY_FEEDFORWARD = 0.10;
-    private static final int DELTA = 200;
+    private static final int DELTA = 150; // HACK: temporary change to work around hardware
 
     private final Lift inner;
     private int current;
@@ -100,7 +100,7 @@ public class ControlledLift {
                 int error = target - this.current;
                 outPower = sigmoidCtrl(error);
                 if (this.target == MIN_TICKS) {
-                    outPower = Math.min(outPower, -0.2);
+                    outPower = Math.min(outPower, -0.32);
                 }
 
                 if (Math.abs(error) <= 25) {
@@ -108,17 +108,16 @@ public class ControlledLift {
                     outPower = power;
                 }
             } else {
-                outPower = power;
+                outPower = Range.clip(
+                        power,
+                        sigmoidCtrl(MIN_TICKS - this.current),
+                        sigmoidCtrl(MAX_TICKS - this.current)
+                );
+
                 if (power <= 0.0 && this.current <= 30) {
-                    outPower = Math.min(outPower, -0.2);
+                    outPower = Math.min(outPower, -0.32);
                 }
             }
-
-            outPower = Range.clip(
-                    outPower,
-                    sigmoidCtrl(MIN_TICKS - this.current),
-                    sigmoidCtrl(MAX_TICKS - this.current)
-            );
         }
 
         this.inner.setPower(outPower + GRAVITY_FEEDFORWARD);

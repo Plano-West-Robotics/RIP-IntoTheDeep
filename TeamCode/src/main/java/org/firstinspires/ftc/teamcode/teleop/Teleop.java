@@ -27,7 +27,7 @@ public class Teleop extends OpModeWrapper {
         drive = new TeleDrive(hardware, MID_SPEED);
         fieldOrienter = new FieldOrienter(hardware);
         robot = new TeleRobot(hardware);
-        time = new DeltaTimer(false);
+        time = new DeltaTimer(true);
     }
 
     @SuppressLint("DefaultLocale")

@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
 import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
-@Autonomous(name = "Left Auto (4 sample + park)", preselectTeleOp = "DDDDDDDDD")
-public class AutoLeft2 extends AutoBase {
+@Autonomous(name = "Left Auto (assisted 5 sample)", preselectTeleOp = "DDDDDDDDD")
+public class AutoLeft3Assisted extends AutoBase {
     @Override
     public void runOpMode() throws InterruptedException {
         super.setup(LeftOrRight.LEFT, true);
@@ -52,12 +52,6 @@ public class AutoLeft2 extends AutoBase {
                                 hardware.outWrist.goTo(OutWrist.State.BASKET)
                         )
                 ),
-                ConcurrentSet.of(
-                        hardware.inWrist.goTo(InWrist.State.UP),
-                        hardware.inSwivel.goTo(InSwivel.MIDDLE),
-                        hardware.inClaw.goTo(InClaw.OPEN),
-                        hardware.extend.goTo(1.0)
-                ),
                 poser.goTo(
                         Distance.inTiles(-2.5).add(Distance.inInches(3)),
                         Distance.inTiles(-2.5).add(Distance.inInches(11)),
@@ -67,9 +61,9 @@ public class AutoLeft2 extends AutoBase {
 
         hardware.outClaw.goTo(OutClaw.OPEN).run();
 
-        ////////////////////
-        // second sample  //
-        ////////////////////
+        /////////////////////
+        // assisted sample //
+        /////////////////////
 
         dter.poll();
         lift.setTarget(0);
@@ -78,7 +72,68 @@ public class AutoLeft2 extends AutoBase {
                         ConcurrentSet.of(
                                 ConcurrentSet.of(
                                         hardware.inWrist.goTo(InWrist.State.DOWN),
-                                        hardware.inSwivel.goTo(InSwivel.MIDDLE + (24/90.) * (InSwivel.LEFT - InSwivel.MIDDLE))
+                                        hardware.inSwivel.goTo(InSwivel.MIDDLE),
+                                        hardware.inClaw.goTo(InClaw.OPEN),
+                                        hardware.extend.goTo(1.0)
+                                ),
+                                poser.goTo(
+                                        Distance.inTiles(-1),
+                                        Distance.inTiles(-2.5),
+                                        Angle.FORWARD
+                                )
+                        ),
+                        hardware.inClaw.goTo(InClaw.CLOSED)
+                ),
+                ConcurrentSet.of(
+                        liftUpdaterAction,
+                        hardware.outShoulder.goTo(OutShoulder.State.TRANSFER),
+                        hardware.outWrist.goTo(OutWrist.State.TRANSFER)
+                )
+        ).run();
+
+        ConcurrentSet.of(
+                Sequence.of(
+                        ConcurrentSet.of(
+                                hardware.inWrist.goTo(InWrist.State.TRANSFER),
+                                hardware.inSwivel.goTo(InSwivel.TRANSFER),
+                                hardware.extend.goTo(0.0)
+                        ),
+                        hardware.outClaw.goTo(OutClaw.CLOSED),
+                        hardware.inClaw.goTo(InClaw.OPEN),
+                        ConcurrentSet.of(
+                                Sequence.of(
+                                        Action.fromFn(() -> {
+                                            dter.poll();
+                                            lift.setTarget(3225);
+                                        }),
+                                        liftUpdaterAction,
+                                        hardware.outWrist.goTo(OutWrist.State.BASKET)
+                                ),
+                                hardware.outShoulder.goTo(OutShoulder.State.OUT)
+                        )
+                ),
+                poser.goTo(
+                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
+                        Angle.inDegrees(66)
+                )
+        ).run();
+
+        hardware.outClaw.goTo(OutClaw.OPEN).run();
+
+        ///////////////////
+        // second sample //
+        ///////////////////
+
+        dter.poll();
+        lift.setTarget(0);
+        ConcurrentSet.of(
+                Sequence.of(
+                        ConcurrentSet.of(
+                                ConcurrentSet.of(
+                                        hardware.inWrist.goTo(InWrist.State.DOWN),
+                                        hardware.inSwivel.goTo(InSwivel.MIDDLE + (24/90.) * (InSwivel.LEFT - InSwivel.MIDDLE)),
+                                        hardware.extend.goTo(1.0)
                                 ),
                                 poser.goTo(
                                         Distance.inTiles(-2.5).add(Distance.inInches(1)),
@@ -116,8 +171,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -175,8 +230,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -234,8 +289,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
                         Angle.inDegrees(66)
                 )
         ).run();

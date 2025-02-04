@@ -78,7 +78,7 @@ public class AutoRight4 extends AutoBase {
                         hardware.extend.goTo(1.0)
                 ),
                 poser.goTo(
-                        Distance.inTiles(1.35),
+                        Distance.inTiles(1.30),
                         Distance.inTiles(-1.75),
                         Angle.inDegrees(40)
                 )
@@ -87,7 +87,7 @@ public class AutoRight4 extends AutoBase {
         // first sample
         hardware.inClaw.goTo(InClaw.CLOSED).run();
         poser.goTo(
-                Distance.inTiles(1.35),
+                Distance.inTiles(1.30),
                 Distance.inTiles(-2),
                 Angle.inDegrees(-40)
         ).run();
@@ -182,8 +182,13 @@ public class AutoRight4 extends AutoBase {
                         Action.fromFn(dter::poll),
                         liftUpdaterAction
                 ),
-                hardware.outShoulder.goTo(OutShoulder.State.WALL),
-                hardware.outWrist.goTo(OutWrist.State.WALL),
+                Sequence.of(
+                        Wait.millis(500),
+                        ConcurrentSet.of(
+                                hardware.outShoulder.goTo(OutShoulder.State.WALL),
+                                hardware.outWrist.goTo(OutWrist.State.WALL)
+                        )
+                ),
                 poser.goTo(
                         Distance.inTiles(1.6),
                         Distance.inTiles(-2.5).sub(Distance.inInches(1.5))
@@ -220,8 +225,10 @@ public class AutoRight4 extends AutoBase {
                         Action.fromFn(dter::poll),
                         liftUpdaterAction
                 ),
-                hardware.outShoulder.goTo(OutShoulder.State.WALL),
-                hardware.outWrist.goTo(OutWrist.State.WALL),
+                Sequence.of(
+                        hardware.outShoulder.goTo(OutShoulder.State.WALL),
+                        hardware.outWrist.goTo(OutWrist.State.WALL)
+                ),
                 poser.goTo(
                         Distance.inTiles(1.6),
                         Distance.inTiles(-2.5).sub(Distance.inInches(1.5))

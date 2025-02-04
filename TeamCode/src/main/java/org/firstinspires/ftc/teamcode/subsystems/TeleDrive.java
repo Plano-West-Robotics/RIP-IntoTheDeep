@@ -26,7 +26,7 @@ public class TeleDrive {
         this.imu = imu;
         this.speed = speed;
         this.targetYaw = imu.getYaw();
-        this.turnAssistTime = 0.0;
+        this.turnAssistTime = 0.5;
 
         this.pow = Vector2.ZERO;
         this.turn = 0.0;

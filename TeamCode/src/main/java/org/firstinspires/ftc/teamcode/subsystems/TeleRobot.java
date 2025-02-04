@@ -19,6 +19,7 @@ public class TeleRobot {
 
         SAMPLE_PICKUP, // arm to pre-transfer, lift to down, intake out and moving
         SAMPLE_TO_TRANSFER, // arm to transfer, lift to down, intake to transfer, out claw open
+        SAMPLE_TRANSFER_HOLD, // outtake @ transfer, intake @ transfer, out claw open, in claw closed
         SAMPLE_TRANSFER_1, // outtake @ transfer, intake @ transfer, out claw closing, in claw closed
         SAMPLE_TRANSFER_2, // outtake @ transfer, intake @ transfer, out claw closed, in claw opening
         SAMPLE_TO_DROP, // arm to basket, lift anywhere, intake to in, out claw closed
@@ -161,8 +162,23 @@ public class TeleRobot {
                 } else if (extendTrigger) {
                     state = State.SAMPLE_PICKUP;
                     this.helperToSamplePickup();
-                } else if (!halfSequenceMode && !this.extend.isBusy() && !this.grabber.isBusy() && !this.lift.isBusy() && !this.arm.isBusy()) {
+                } else if (halfSequenceMode) {
+                    state = State.SAMPLE_TRANSFER_HOLD;
+                } else if (!this.extend.isBusy() && !this.grabber.isBusy() && !this.lift.isBusy() && !this.arm.isBusy()) {
                     state = State.SAMPLE_TRANSFER_1;
+                    this.arm.grab();
+                }
+                break;
+            case SAMPLE_TRANSFER_HOLD:
+                if (sampleDropButton) {
+                    state = State.SAMPLE_RETRACT_CANCEL;
+                    this.grabber.toIn();
+                    this.arm.toPreTransfer();
+                } else if (extendTrigger) {
+                    state = State.SAMPLE_PICKUP;
+                    this.helperToSamplePickup();
+                } else if (!halfSequenceMode) {
+                    state = State.SAMPLE_TRANSFER_1; // making the assumption the hold is long enough? ;.;
                     this.arm.grab();
                 }
                 break;
