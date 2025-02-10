@@ -43,7 +43,7 @@ public class AutoLeft3Assisted extends AutoBase {
         ////////////////////
 
         dter.poll();
-        lift.setTarget(3225);
+        lift.setTarget(2370);
         ConcurrentSet.of(
                 Sequence.of(
                         liftUpdaterAction,
@@ -104,7 +104,7 @@ public class AutoLeft3Assisted extends AutoBase {
                                 Sequence.of(
                                         Action.fromFn(() -> {
                                             dter.poll();
-                                            lift.setTarget(3225);
+                                            lift.setTarget(2370);
                                         }),
                                         liftUpdaterAction,
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
@@ -162,7 +162,7 @@ public class AutoLeft3Assisted extends AutoBase {
                                 Sequence.of(
                                         Action.fromFn(() -> {
                                             dter.poll();
-                                            lift.setTarget(3225);
+                                            lift.setTarget(2370);
                                         }),
                                         liftUpdaterAction,
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
@@ -221,7 +221,7 @@ public class AutoLeft3Assisted extends AutoBase {
                                 Sequence.of(
                                         Action.fromFn(() -> {
                                             dter.poll();
-                                            lift.setTarget(3225);
+                                            lift.setTarget(2370);
                                         }),
                                         liftUpdaterAction,
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
@@ -280,7 +280,7 @@ public class AutoLeft3Assisted extends AutoBase {
                                 Sequence.of(
                                         Action.fromFn(() -> {
                                             dter.poll();
-                                            lift.setTarget(3225);
+                                            lift.setTarget(2370);
                                         }),
                                         liftUpdaterAction,
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)

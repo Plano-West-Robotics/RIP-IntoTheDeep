@@ -12,7 +12,7 @@ public class TeleRobot {
     private final Arm arm;
 
     private static final double EXTEND_THRESH = 0.1;
-    private static final int LIFT_HI_CHAMBER = 1400;
+    private static final int LIFT_HI_CHAMBER = 1001;
 
     private enum State {
         IDLE, // outtake @ wall, intake @ in, out claw open, in claw open

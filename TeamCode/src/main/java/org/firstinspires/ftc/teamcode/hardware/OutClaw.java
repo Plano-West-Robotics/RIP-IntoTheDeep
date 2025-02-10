@@ -14,7 +14,7 @@ public class OutClaw extends TimedServo {
                 hardwareMap.get(Servo.class, "outClaw"),
                 (0.33)/(0.40), // TODO:
                 initial.branch(OPEN, OPEN, CLOSED),
-                0.25, 0.58
+                0.57, 0.9
         );
     }
 

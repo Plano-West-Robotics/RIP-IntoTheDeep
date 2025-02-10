@@ -44,7 +44,7 @@ public class AutoRight4 extends AutoBase {
         ////////////////////
 
         dter.poll();
-        lift.setTarget(1420);
+        lift.setTarget(1080);
         ConcurrentSet.of(
                 ConcurrentSet.of(
                         liftUpdaterAction,
@@ -154,7 +154,7 @@ public class AutoRight4 extends AutoBase {
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
         dter.poll();
-        lift.setTarget(1420);
+        lift.setTarget(1080);
         ConcurrentSet.of(
                 liftUpdaterAction,
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
@@ -197,7 +197,7 @@ public class AutoRight4 extends AutoBase {
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
         dter.poll();
-        lift.setTarget(1420);
+        lift.setTarget(1080);
         ConcurrentSet.of(
                 liftUpdaterAction,
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
@@ -237,7 +237,7 @@ public class AutoRight4 extends AutoBase {
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
         dter.poll();
-        lift.setTarget(1420);
+        lift.setTarget(1080);
         ConcurrentSet.of(
                 liftUpdaterAction,
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),

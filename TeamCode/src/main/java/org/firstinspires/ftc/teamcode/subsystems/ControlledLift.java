@@ -6,17 +6,18 @@ import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.hardware.Lift;
 
 public class ControlledLift {
-    // 0 -> 6.5 in
-    // 2172 -> 25.75 in
-    // 4139 -> 43 in
-    // 4675 -> highest
+    // 0 -> 6.5 in -14 for liftL
+    // 2172 -> 25.75 in -689 for liftL
+    // 4139 -> 43 in -2134 for liftL
+    // 4675 -> highest -3306 for liftL
+    // -2432 -> high bucket for liftL
 
     // 1575 -> high chamber with outtake arm
 
 //    public static final Distance MIN_HEIGHT = Distance.inInches(6.5);
     public static final int MIN_TICKS = 0;
 //    public static final Distance MAX_HEIGHT = Distance.inInches(45.3);
-    public static final int MAX_TICKS = 4200;
+    public static final int MAX_TICKS = 3003;
 //    public static final Distance DIST_PER_TICK = (MAX_HEIGHT.sub(MIN_HEIGHT)).div(MAX_TICKS - MIN_TICKS);
 
     private static final double GRAVITY_FEEDFORWARD = 0.10;
