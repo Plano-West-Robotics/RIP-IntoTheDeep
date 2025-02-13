@@ -16,9 +16,9 @@ public class Lift {
         this.limitL = hardwareMap.get(RevTouchSensor.class, "liftLimitL");
         this.limitR = hardwareMap.get(RevTouchSensor.class, "liftLimitR");
 
-        // TODO: should be RUN_USING_ENCODER once both encoders are connected
-        liftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // N.B. never set to RUN_USING_ENCODER. please.
+        liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
