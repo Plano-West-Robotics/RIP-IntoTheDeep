@@ -8,13 +8,13 @@ public class InClaw extends TimedServo {
     public static final double CLOSED = 0.0;
 
     public InClaw(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-12-06
-        // intake: closed 0.32 - open 0.60, port eh4
+        // calibrated on 2024-02-13
+        // inClaw: closed 0.31 - open 0.60, port eh3
         super(
                 hardwareMap.get(Servo.class, "inClaw"),
-                0.28/(0.20),
+                0.29/(0.19),
                 initial.branch(OPEN, OPEN, OPEN),
-                0.32, 0.60
+                0.31, 0.60
         );
     }
 

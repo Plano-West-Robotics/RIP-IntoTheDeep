@@ -10,15 +10,15 @@ public class InSwivel extends TimedServo {
     public static final double TRANSFER = 1;
 
     public InSwivel(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-12-06
-        // swivel, port eh5
+        // calibrated on 2024-02-13
+        // inSwivel, port eh4
         // right: 0.0
         // mid: 0.333
         // left: 0.667
         // bucket: 1.0
         super(
                 hardwareMap.get(Servo.class, "inSwivel"),
-                1/(0.60), // TODO:
+                1/(0.50),
                 initial.branch(TRANSFER, TRANSFER, TRANSFER),
                 0.00, 1.00
         );
