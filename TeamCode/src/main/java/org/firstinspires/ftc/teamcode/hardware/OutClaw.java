@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import androidx.annotation.CheckResult;
+
+import org.firstinspires.ftc.teamcode.macro.Action;
+
 public class OutClaw extends TimedServo {
     public static final double OPEN = 0.0;
     public static final double CLOSED = 1.0;
@@ -21,5 +25,15 @@ public class OutClaw extends TimedServo {
 
     public void close() {
         this.setPosition(CLOSED);
+    }
+
+    @CheckResult(suggest = "open()")
+    public Action toOpen() {
+        return this.goTo(OPEN);
+    }
+
+    @CheckResult(suggest = "close()")
+    public Action toClosed() {
+        return this.goTo(CLOSED);
     }
 }
