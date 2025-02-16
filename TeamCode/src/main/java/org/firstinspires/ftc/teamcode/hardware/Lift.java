@@ -7,34 +7,46 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Lift {
-    private final DcMotorEx liftL, liftR;
+    private final DcMotorEx liftL, liftR, liftL2, liftR2;
     private final RevTouchSensor limitL, limitR;
 
     public Lift(HardwareMap hardwareMap, Hardware.InitialConfiguration _initial) {
         this.liftL = hardwareMap.get(DcMotorEx.class, "liftL");
         this.liftR = hardwareMap.get(DcMotorEx.class, "liftR");
+        this.liftL2 = hardwareMap.get(DcMotorEx.class, "liftL2");
+        this.liftR2 = hardwareMap.get(DcMotorEx.class, "liftR2");
         this.limitL = hardwareMap.get(RevTouchSensor.class, "liftLimitL");
         this.limitR = hardwareMap.get(RevTouchSensor.class, "liftLimitR");
 
         // N.B. never set to RUN_USING_ENCODER. please.
         liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftL2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftR2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftL2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftR2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftL2.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftR2.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void setPower(double power) {
         liftL.setPower(power);
+        liftL2.setPower(power);
         liftR.setPower(power);
+        liftR2.setPower(power);
     }
 
     public void setPowers(double powL, double powR) {
         liftL.setPower(powL);
+        liftL2.setPower(powL);
         liftR.setPower(powR);
+        liftR2.setPower(powR);
     }
 
     public boolean isLeftDown() {
@@ -52,4 +64,6 @@ public class Lift {
     public int rightEncoder() {
         return liftR.getCurrentPosition();
     }
+    public DcMotor liftLOdo() { return liftL2; }
+    public DcMotor liftROdo() { return liftR2; }
 }
