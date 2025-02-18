@@ -15,7 +15,7 @@ public class OutClaw extends TimedServo {
                 raw.outClaw,
                 (0.33)/(0.33),
                 initial.branch(OPEN, OPEN, CLOSED),
-                0.65, 0.98
+                0.33, 0.66
         );
     }
 

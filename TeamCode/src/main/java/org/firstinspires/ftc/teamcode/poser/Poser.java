@@ -130,7 +130,7 @@ public class Poser {
     }
 
     public class Motion implements Action {
-        private static final double TIME_LIMIT = 2;
+        private static final double TIME_LIMIT = 1;
 
         protected final PIDController xCtrl = new PIDController(2.5, 0, 0.25);
         protected final PIDController yCtrl = new PIDController(2.5, 0, 0.25);

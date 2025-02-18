@@ -22,7 +22,7 @@ public class AutoLeft1 extends AutoBase {
 
         ControlledLift lift = new ControlledLift(hardware);
 
-        waitForStart();
+        waitForStartWithClaw();
 
         ////////////////////
         //  first sample  //

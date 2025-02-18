@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutWrist extends TimedServo {
     public enum State {
-        TRANSFER(0.88), BASKET(0.43), WALL(0.49), CHAMBER(0.00);
+        TRANSFER(0.88), BASKET(0.43), WALL(0.49), CHAMBER(0.08);
 
         public final double pos;
         State(double pos) {
@@ -18,7 +18,7 @@ public class OutWrist extends TimedServo {
         // calibrated on 2024-02-13
         // outWrist
         // min: 0.25
-        // chamber: 0.25
+        // chamber: 0.31
         // basket: 0.57
         // wall: 0.62
         // transfer: 0.91

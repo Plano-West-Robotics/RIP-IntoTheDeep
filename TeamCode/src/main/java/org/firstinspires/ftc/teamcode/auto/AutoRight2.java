@@ -26,7 +26,7 @@ public class AutoRight2 extends AutoBase {
 
         ControlledLift lift = new ControlledLift(hardware);
 
-        waitForStart();
+        waitForStartWithClaw();
 
         ////////////////////
         // first specimen //
@@ -38,13 +38,16 @@ public class AutoRight2 extends AutoBase {
                         hardware.outShoulder.goTo(OutShoulder.State.OUT),
                         hardware.outWrist.goTo(OutWrist.State.CHAMBER)
                 ),
-                poser.goTo(
-                        Distance.ZERO,
-                        Distance.inTiles(-1.5).sub(Distance.inInches(6))
+                Sequence.of(
+                        Wait.millis(300),
+                        poser.goTo(
+                                Distance.inInches(0),
+                                Distance.inTiles(-1.5).add(Distance.inInches(3.5))
+                        ).withStuckCheck()
                 )
         ).run();
 
-        clipUsingDistSensors().run();
+//        clipUsingDistSensors().run();
         hardware.outClaw.goTo(OutClaw.OPEN).run();
 
         /////////////
@@ -53,9 +56,17 @@ public class AutoRight2 extends AutoBase {
 
         ConcurrentSet.of(
                 ConcurrentSet.of(
-                        lift.goTo(ControlledLift.MIN_TICKS),
-                        hardware.outShoulder.goTo(OutShoulder.State.PRE_TRANSFER),
-                        hardware.outWrist.goTo(OutWrist.State.TRANSFER)
+                        Sequence.of(
+                                Wait.millis(800),
+                                lift.goTo(ControlledLift.MIN_TICKS)
+                        ),
+                        Sequence.of(
+                                Wait.millis(800),
+                                ConcurrentSet.of(
+                                        hardware.outShoulder.goTo(OutShoulder.State.PRE_TRANSFER),
+                                        hardware.outWrist.goTo(OutWrist.State.TRANSFER)
+                                )
+                        )
                 ),
                 ConcurrentSet.of(
                         hardware.inWrist.goTo(InWrist.State.DOWN),
@@ -63,16 +74,16 @@ public class AutoRight2 extends AutoBase {
                         hardware.extend.goTo(1.0)
                 ),
                 poser.goTo(
-                        Distance.inTiles(1.30),
+                        Distance.inTiles(1.33),
                         Distance.inTiles(-1.75),
-                        Angle.inDegrees(40)
+                        Angle.inDegrees(39)
                 )
         ).run();
 
         // first sample
         hardware.inClaw.goTo(InClaw.CLOSED).run();
         poser.goTo(
-                Distance.inTiles(1.30),
+                Distance.inTiles(1.33),
                 Distance.inTiles(-2),
                 Angle.inDegrees(-40)
         ).run();
@@ -82,7 +93,7 @@ public class AutoRight2 extends AutoBase {
         poser.goTo(
                 Distance.inTiles(1.75),
                 Distance.inTiles(-1.75),
-                Angle.inDegrees(44)
+                Angle.inDegrees(41)
         ).run();
 
         // second sample
@@ -133,7 +144,7 @@ public class AutoRight2 extends AutoBase {
                 hardware.outShoulder.goTo(OutShoulder.State.WALL),
                 hardware.outWrist.goTo(OutWrist.State.WALL),
                 poser.goToY(
-                        Distance.inTiles(-2.5).sub(Distance.inInches(1.5))
+                        Distance.inTiles(-2.5).sub(Distance.inInches(3.75))
                 ).withStuckCheck()
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
@@ -145,13 +156,13 @@ public class AutoRight2 extends AutoBase {
                 Sequence.of(
                         Wait.millis(500),
                         poser.goTo(
-                                Distance.inInches(3),
-                                Distance.inTiles(-1.5).sub(Distance.inInches(6))
-                        )
+                                Distance.inInches(0),
+                                Distance.inTiles(-1.5).add(Distance.inInches(2.5))
+                        ).withStuckCheck()
                 )
         ).run();
 
-        clipUsingDistSensors().run();
+//        clipUsingDistSensors().run();
         hardware.outClaw.goTo(OutClaw.OPEN).run();
 
         ////////////////////
@@ -160,11 +171,11 @@ public class AutoRight2 extends AutoBase {
 
         ConcurrentSet.of(
                 Sequence.of(
-                        Wait.millis(300),
+                        Wait.millis(800),
                         lift.goTo(ControlledLift.MIN_TICKS)
                 ),
                 Sequence.of(
-                        Wait.millis(500),
+                        Wait.millis(800),
                         ConcurrentSet.of(
                                 hardware.outShoulder.goTo(OutShoulder.State.WALL),
                                 hardware.outWrist.goTo(OutWrist.State.WALL)
@@ -172,7 +183,7 @@ public class AutoRight2 extends AutoBase {
                 ),
                 poser.goTo(
                         Distance.inTiles(1.6),
-                        Distance.inTiles(-2.5).sub(Distance.inInches(1.5))
+                        Distance.inTiles(-2.5).sub(Distance.inInches(3.75))
                 ).withStuckCheck()
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
@@ -184,13 +195,13 @@ public class AutoRight2 extends AutoBase {
                 Sequence.of(
                         Wait.millis(500),
                         poser.goTo(
-                                Distance.inInches(6),
-                                Distance.inTiles(-1.5).sub(Distance.inInches(6))
-                        )
+                                Distance.inInches(0),
+                                Distance.inTiles(-1.5).add(Distance.inInches(2.5))
+                        ).withStuckCheck()
                 )
         ).run();
 
-        clipUsingDistSensors().run();
+//        clipUsingDistSensors().run();
         hardware.outClaw.goTo(OutClaw.OPEN).run();
 
         /////////////////////
@@ -199,16 +210,19 @@ public class AutoRight2 extends AutoBase {
 
         ConcurrentSet.of(
                 Sequence.of(
-                        Wait.millis(300),
+                        Wait.millis(800),
                         lift.goTo(ControlledLift.MIN_TICKS)
                 ),
                 Sequence.of(
-                        hardware.outShoulder.goTo(OutShoulder.State.WALL),
-                        hardware.outWrist.goTo(OutWrist.State.WALL)
+                        Wait.millis(800),
+                        ConcurrentSet.of(
+                                hardware.outShoulder.goTo(OutShoulder.State.WALL),
+                                hardware.outWrist.goTo(OutWrist.State.WALL)
+                        )
                 ),
                 poser.goTo(
                         Distance.inTiles(1.6),
-                        Distance.inTiles(-2.5).sub(Distance.inInches(1.5))
+                        Distance.inTiles(-2.5).sub(Distance.inInches(3.75))
                 ).withStuckCheck()
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
@@ -220,13 +234,13 @@ public class AutoRight2 extends AutoBase {
                 Sequence.of(
                         Wait.millis(500),
                         poser.goTo(
-                                Distance.inInches(9),
-                                Distance.inTiles(-1.5).sub(Distance.inInches(6))
-                        )
+                                Distance.inInches(0),
+                                Distance.inTiles(-1.5).add(Distance.inInches(2.5))
+                        ).withStuckCheck()
                 )
         ).run();
 
-        clipUsingDistSensors().run();
+//        clipUsingDistSensors().run();
         hardware.outClaw.goTo(OutClaw.OPEN).run();
 
         ///////////
@@ -234,16 +248,21 @@ public class AutoRight2 extends AutoBase {
         ///////////
 
         ConcurrentSet.of(
-                poser.moveBy(
-                        Distance.inInches(5),
-                        Distance.ZERO
+                poser.goTo(
+                        Distance.inTiles(2),
+                        Distance.inTiles(-2.5)
                 ),
                 Sequence.of(
-                        Wait.millis(300),
+                        Wait.millis(800),
                         lift.goTo(ControlledLift.MIN_TICKS)
                 ),
-                hardware.outShoulder.goTo(OutShoulder.State.WALL),
-                hardware.outWrist.goTo(OutWrist.State.WALL)
+                Sequence.of(
+                        Wait.millis(800),
+                        ConcurrentSet.of(
+                                hardware.outShoulder.goTo(OutShoulder.State.WALL),
+                                hardware.outWrist.goTo(OutWrist.State.WALL)
+                        )
+                )
         ).run();
     }
 
@@ -266,7 +285,7 @@ public class AutoRight2 extends AutoBase {
                     } else {
                         waiter.end();
                         Distance measured = avg.div(count == 0 ? 1 : count);
-                        final Distance TARGET = Distance.inMM(30);
+                        final Distance TARGET = Distance.inMM(15);
                         mover = poser.moveBy(TARGET.sub(measured), Distance.ZERO);
                         doneWaiting = true;
                     }

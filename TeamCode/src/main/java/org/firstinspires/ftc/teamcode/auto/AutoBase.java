@@ -58,4 +58,13 @@ public abstract class AutoBase extends LinearOpMode {
 
         this.poser = new Poser(hardware, 1.0, false, initialPose);
     }
+
+    public void waitForStartWithClaw() {
+        while (!this.isStarted() && !Thread.currentThread().isInterrupted()) {
+            if (gamepad1.a || gamepad2.a) hardware.outClaw.open();
+            else hardware.outClaw.close();
+
+            Thread.yield();
+        }
+    }
 }

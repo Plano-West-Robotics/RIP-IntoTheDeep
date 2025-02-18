@@ -236,7 +236,7 @@ public class TeleRobot {
                 }
                 break;
             case SAMPLE_RETRACT_1:
-                if (!this.arm.isBusy()) {
+                if (sampleDropButton) {
                     state = State.SAMPLE_RETRACT_2;
                     this.lift.setTarget(ControlledLift.MIN_TICKS);
                     this.arm.toWall();
@@ -289,7 +289,7 @@ public class TeleRobot {
                 }
                 break;
             case SPECIMEN_DROP:
-                if (!this.arm.isBusy()) {
+                if (specimenCycleButton) {
                     state = State.SPECIMEN_TO_WALL;
                     this.lift.setTarget(ControlledLift.MIN_TICKS);
                     this.arm.toWall();

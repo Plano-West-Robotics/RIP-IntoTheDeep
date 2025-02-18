@@ -74,7 +74,8 @@ public class Teleop extends OpModeWrapper {
             robot.swivelBumpRight();
         }
 
-        if (gamepads.justPressed(Controls.DROP_SAMPLE)) robot.pressSampleDropButton();
+        if (gamepads.justPressed(Controls.DROP_SAMPLE) || gamepads.justPressed(Controls.DROP_SAMPLE_ALT))
+            robot.pressSampleDropButton();
 
         if (gamepads.justPressed(Controls.SPECIMEN_CYCLE)) robot.pressSpecimenCycleButton();
 

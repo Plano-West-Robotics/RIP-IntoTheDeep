@@ -13,14 +13,14 @@ public class ControlledLift {
     public static final int MIN_TICKS = 0;
     public static final int MAX_TICKS = 3000;
 
-    public static final int HIGH_CHAMBER = 1075;
+    public static final int HIGH_CHAMBER = 1100;
     public static final int LOW_BASKET = 900;
     public static final int HIGH_BASKET = 2350;
     public static final int LOW_RUNG = 1200;
     public static final int HIGH_RUNG = 2500;
 
     private static final double GRAVITY_FEEDFORWARD = 0.07;
-    private static final int DELTA = 300;
+    private static final int DELTA = 200;
 
     private final Lift inner;
     private int current;
@@ -119,7 +119,7 @@ public class ControlledLift {
                     outPower = Math.min(outPower, -0.32);
                 }
 
-                if (Math.abs(error) <= 25) {
+                if (Math.abs(error) <= 10 || (target <= 30 && down)) { // TODO: 1. 10 => 15 and 2. second condition is hacky
                     isGoingToTarget = false;
                     outPower = power;
                 }

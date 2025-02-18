@@ -11,6 +11,7 @@ public class Controls {
     public static Gamepads.Button MID_MODE = Gamepads.Button.GP1_LEFT_TRIGGER;
     public static Gamepads.Button YAW_RESET = Gamepads.Button.GP1_DPAD_UP;
     public static Gamepads.Button SPECIMEN_CYCLE = Gamepads.Button.GP1_SQUARE;
+    public static Gamepads.Button DROP_SAMPLE_ALT = Gamepads.Button.GP1_CROSS;
 
     // ======================= GAMEPAD 2 ============================
     public static Gamepads.Button EXTEND = Gamepads.Button.GP2_RIGHT_TRIGGER;
