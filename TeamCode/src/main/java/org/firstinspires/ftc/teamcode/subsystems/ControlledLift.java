@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.hardware.Lift;
+import org.firstinspires.ftc.teamcode.macro.Action;
+import org.firstinspires.ftc.teamcode.macro.ControlFlow;
+import org.firstinspires.ftc.teamcode.macro.Sequence;
+import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
 public class ControlledLift {
     public static final int MIN_TICKS = 0;
@@ -64,6 +68,22 @@ public class ControlledLift {
     public void setTarget(int target) {
         this.isGoingToTarget = true;
         this.target = target;
+    }
+
+    public Action goTo(int target) {
+        return Sequence.of(
+                Action.fromFn(() -> this.setTarget(target)),
+                new Action() {
+                    DeltaTimer dter = new DeltaTimer(true);
+
+                    public ControlFlow update() {
+                        ControlledLift.this.update(dter.poll());
+                        return ControlFlow.continueIf(ControlledLift.this.isBusy());
+                    }
+
+                    public void end() {}
+                }
+        );
     }
 
     public void update(double dt) {
