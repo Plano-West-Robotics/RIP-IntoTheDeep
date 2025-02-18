@@ -43,8 +43,8 @@ public class AutoLeft2 extends AutoBase {
                         hardware.extend.goTo(1.0)
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -94,8 +94,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -147,8 +147,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -200,8 +200,8 @@ public class AutoLeft2 extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
