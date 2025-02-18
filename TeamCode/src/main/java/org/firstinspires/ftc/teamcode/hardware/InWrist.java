@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class InWrist extends TimedServo.Pair {
     public enum State {
-        IN(1.0), TRANSFER(0.79), UP(0.42), DOWN(0.0);
+        IN(1.0), TRANSFER(0.82), UP(0.42), DOWN(0.0);
 
         public final double pos;
         State(double pos) {
