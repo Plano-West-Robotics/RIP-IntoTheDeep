@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.poser.Poser;
 import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
-import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
 @Autonomous(name = "Right Auto (4 spec)", preselectTeleOp = "DDDDDDDDD")
 public class AutoRight4 extends AutoBase {
@@ -26,16 +25,6 @@ public class AutoRight4 extends AutoBase {
         super.setup(LeftOrRight.RIGHT, true);
 
         ControlledLift lift = new ControlledLift(hardware);
-        DeltaTimer dter = new DeltaTimer();
-
-        Action liftUpdaterAction = new Action() {
-            public ControlFlow update() {
-                lift.update(dter.poll());
-                return ControlFlow.continueIf(lift.isBusy());
-            }
-
-            public void end() {}
-        };
 
         waitForStart();
 
@@ -43,11 +32,9 @@ public class AutoRight4 extends AutoBase {
         // first specimen //
         ////////////////////
 
-        dter.poll();
-        lift.setTarget(1080);
         ConcurrentSet.of(
                 ConcurrentSet.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.HIGH_CHAMBER),
                         hardware.outShoulder.goTo(OutShoulder.State.OUT),
                         hardware.outWrist.goTo(OutWrist.State.CHAMBER)
                 ),
@@ -64,11 +51,9 @@ public class AutoRight4 extends AutoBase {
         // samples //
         /////////////
 
-        dter.poll();
-        lift.setTarget(0);
         ConcurrentSet.of(
                 ConcurrentSet.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.MIN_TICKS),
                         hardware.outShoulder.goTo(OutShoulder.State.PRE_TRANSFER),
                         hardware.outWrist.goTo(OutWrist.State.TRANSFER)
                 ),
@@ -153,10 +138,8 @@ public class AutoRight4 extends AutoBase {
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
-        dter.poll();
-        lift.setTarget(1080);
         ConcurrentSet.of(
-                liftUpdaterAction,
+                lift.goTo(ControlledLift.HIGH_CHAMBER),
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
                 hardware.outWrist.goTo(OutWrist.State.CHAMBER),
                 Sequence.of(
@@ -175,12 +158,10 @@ public class AutoRight4 extends AutoBase {
         // third specimen //
         ////////////////////
 
-        lift.setTarget(0);
         ConcurrentSet.of(
                 Sequence.of(
                         Wait.millis(300),
-                        Action.fromFn(dter::poll),
-                        liftUpdaterAction
+                        lift.goTo(ControlledLift.MIN_TICKS)
                 ),
                 Sequence.of(
                         Wait.millis(500),
@@ -196,10 +177,8 @@ public class AutoRight4 extends AutoBase {
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
-        dter.poll();
-        lift.setTarget(1080);
         ConcurrentSet.of(
-                liftUpdaterAction,
+                lift.goTo(ControlledLift.HIGH_CHAMBER),
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
                 hardware.outWrist.goTo(OutWrist.State.CHAMBER),
                 Sequence.of(
@@ -218,12 +197,10 @@ public class AutoRight4 extends AutoBase {
         // fourth specimen //
         /////////////////////
 
-        lift.setTarget(0);
         ConcurrentSet.of(
                 Sequence.of(
                         Wait.millis(300),
-                        Action.fromFn(dter::poll),
-                        liftUpdaterAction
+                        lift.goTo(ControlledLift.MIN_TICKS)
                 ),
                 Sequence.of(
                         hardware.outShoulder.goTo(OutShoulder.State.WALL),
@@ -236,10 +213,8 @@ public class AutoRight4 extends AutoBase {
         ).run();
         hardware.outClaw.goTo(OutClaw.CLOSED).run();
 
-        dter.poll();
-        lift.setTarget(1080);
         ConcurrentSet.of(
-                liftUpdaterAction,
+                lift.goTo(ControlledLift.HIGH_CHAMBER),
                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
                 hardware.outWrist.goTo(OutWrist.State.CHAMBER),
                 Sequence.of(
@@ -258,7 +233,6 @@ public class AutoRight4 extends AutoBase {
         // reset //
         ///////////
 
-        lift.setTarget(0);
         ConcurrentSet.of(
                 poser.moveBy(
                         Distance.inInches(5),
@@ -266,8 +240,7 @@ public class AutoRight4 extends AutoBase {
                 ),
                 Sequence.of(
                         Wait.millis(300),
-                        Action.fromFn(dter::poll),
-                        liftUpdaterAction
+                        lift.goTo(ControlledLift.MIN_TICKS)
                 ),
                 hardware.outShoulder.goTo(OutShoulder.State.WALL),
                 hardware.outWrist.goTo(OutWrist.State.WALL)

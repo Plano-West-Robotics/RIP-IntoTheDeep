@@ -8,14 +8,11 @@ import org.firstinspires.ftc.teamcode.hardware.InSwivel;
 import org.firstinspires.ftc.teamcode.hardware.InWrist;
 import org.firstinspires.ftc.teamcode.hardware.OutShoulder;
 import org.firstinspires.ftc.teamcode.hardware.OutWrist;
-import org.firstinspires.ftc.teamcode.macro.Action;
 import org.firstinspires.ftc.teamcode.macro.ConcurrentSet;
-import org.firstinspires.ftc.teamcode.macro.ControlFlow;
 import org.firstinspires.ftc.teamcode.macro.Sequence;
 import org.firstinspires.ftc.teamcode.subsystems.ControlledLift;
 import org.firstinspires.ftc.teamcode.units.Angle;
 import org.firstinspires.ftc.teamcode.units.Distance;
-import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
 @Autonomous(name = "Left Auto (4 sample + park)", preselectTeleOp = "DDDDDDDDD")
 public class AutoLeft2 extends AutoBase {
@@ -24,17 +21,6 @@ public class AutoLeft2 extends AutoBase {
         super.setup(LeftOrRight.LEFT, true);
 
         ControlledLift lift = new ControlledLift(hardware);
-        DeltaTimer dter = new DeltaTimer();
-
-        Action liftUpdaterAction = new Action() {
-            public ControlFlow update() {
-                lift.update(dter.poll());
-                return ControlFlow.continueIf(lift.isBusy());
-            }
-
-            public void end() {
-            }
-        };
 
         waitForStart();
 
@@ -42,11 +28,9 @@ public class AutoLeft2 extends AutoBase {
         //  first sample  //
         ////////////////////
 
-        dter.poll();
-        lift.setTarget(2370);
         ConcurrentSet.of(
                 Sequence.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.HIGH_BASKET),
                         ConcurrentSet.of(
                                 hardware.outShoulder.goTo(OutShoulder.State.OUT),
                                 hardware.outWrist.goTo(OutWrist.State.BASKET)
@@ -71,8 +55,6 @@ public class AutoLeft2 extends AutoBase {
         // second sample  //
         ////////////////////
 
-        dter.poll();
-        lift.setTarget(0);
         ConcurrentSet.of(
                 Sequence.of(
                         ConcurrentSet.of(
@@ -88,7 +70,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.CLOSED)
                 ),
                 ConcurrentSet.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.MIN_TICKS),
                         hardware.outShoulder.goTo(OutShoulder.State.TRANSFER),
                         hardware.outWrist.goTo(OutWrist.State.TRANSFER)
                 )
@@ -105,11 +87,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.OPEN),
                         ConcurrentSet.of(
                                 Sequence.of(
-                                        Action.fromFn(() -> {
-                                            dter.poll();
-                                            lift.setTarget(2370);
-                                        }),
-                                        liftUpdaterAction,
+                                        lift.goTo(ControlledLift.HIGH_BASKET),
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
                                 ),
                                 hardware.outShoulder.goTo(OutShoulder.State.OUT)
@@ -128,8 +106,6 @@ public class AutoLeft2 extends AutoBase {
         //  third sample  //
         ////////////////////
 
-        dter.poll();
-        lift.setTarget(0);
         ConcurrentSet.of(
                 Sequence.of(
                         ConcurrentSet.of(
@@ -147,7 +123,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.CLOSED)
                 ),
                 ConcurrentSet.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.MIN_TICKS),
                         hardware.outShoulder.goTo(OutShoulder.State.TRANSFER),
                         hardware.outWrist.goTo(OutWrist.State.TRANSFER)
                 )
@@ -164,11 +140,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.OPEN),
                         ConcurrentSet.of(
                                 Sequence.of(
-                                        Action.fromFn(() -> {
-                                            dter.poll();
-                                            lift.setTarget(2370);
-                                        }),
-                                        liftUpdaterAction,
+                                        lift.goTo(ControlledLift.HIGH_BASKET),
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
                                 ),
                                 hardware.outShoulder.goTo(OutShoulder.State.OUT)
@@ -187,8 +159,6 @@ public class AutoLeft2 extends AutoBase {
         // fourth sample  //
         ////////////////////
 
-        dter.poll();
-        lift.setTarget(0);
         ConcurrentSet.of(
                 Sequence.of(
                         ConcurrentSet.of(
@@ -206,7 +176,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.CLOSED)
                 ),
                 ConcurrentSet.of(
-                        liftUpdaterAction,
+                        lift.goTo(ControlledLift.MIN_TICKS),
                         hardware.outShoulder.goTo(OutShoulder.State.TRANSFER),
                         hardware.outWrist.goTo(OutWrist.State.TRANSFER)
                 )
@@ -223,11 +193,7 @@ public class AutoLeft2 extends AutoBase {
                         hardware.inClaw.goTo(InClaw.OPEN),
                         ConcurrentSet.of(
                                 Sequence.of(
-                                        Action.fromFn(() -> {
-                                            dter.poll();
-                                            lift.setTarget(2370);
-                                        }),
-                                        liftUpdaterAction,
+                                        lift.goTo(ControlledLift.HIGH_BASKET),
                                         hardware.outWrist.goTo(OutWrist.State.BASKET)
                                 ),
                                 hardware.outShoulder.goTo(OutShoulder.State.OUT)
@@ -246,12 +212,10 @@ public class AutoLeft2 extends AutoBase {
         // park //
         //////////
 
-        dter.poll();
-        lift.setTarget(0);
         Sequence.of(
                 ConcurrentSet.of(
                         ConcurrentSet.of(
-                                liftUpdaterAction,
+                                lift.goTo(ControlledLift.MIN_TICKS),
                                 hardware.outShoulder.goTo(OutShoulder.State.WALL),
                                 hardware.outWrist.goTo(OutWrist.State.BASKET),
                                 hardware.inSwivel.goTo(InSwivel.TRANSFER),
@@ -269,6 +233,5 @@ public class AutoLeft2 extends AutoBase {
                 ),
                 hardware.outShoulder.goTo(0.8)
         ).run();
-
     }
 }
