@@ -66,8 +66,8 @@ public class Hardware {
         this.dist = new DistanceSensors(hardwareMap);
         this.imu = new Imu(hardwareMap);
 
-        backOdo = new Encoder(lift.liftLOdo());
-        rightOdo = new Encoder(lift.liftROdo());
+        backOdo = new Encoder(lift.liftROdo());
+        rightOdo = new Encoder(lift.liftLOdo());
 
         for (LynxModule hub : hardwareMap.getAll(LynxModule.class)) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
