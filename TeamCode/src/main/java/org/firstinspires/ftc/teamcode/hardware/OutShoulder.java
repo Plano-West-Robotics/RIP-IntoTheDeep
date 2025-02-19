@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import androidx.annotation.CheckResult;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutShoulder extends TimedServo.Pair {
@@ -16,14 +13,14 @@ public class OutShoulder extends TimedServo.Pair {
         }
     }
 
-    public OutShoulder(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
+    public OutShoulder(RawHardware raw, Hardware.InitialConfiguration initial) {
         // calibrated on 2024-02-13
         //              in - out
-        // shoulderL  1.00 - 0.00, port ch1
-        // shoulderR  0.00 - 1.00, port ch3
+        // shoulderL  1.00 - 0.00
+        // shoulderR  0.00 - 1.00
         super(
-                hardwareMap.get(Servo.class, "shoulderL"),
-                hardwareMap.get(Servo.class, "shoulderR"),
+                raw.shoulderL,
+                raw.shoulderR,
                 (0.92)/(0.84),
                 initial.branch(State.WALL.pos, State.TRANSFER.pos, State.WALL.pos),
                 1.00, 0.00,

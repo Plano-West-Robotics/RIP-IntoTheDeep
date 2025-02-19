@@ -53,24 +53,20 @@ public class Hardware {
         this.dashboardTelemetry = new DashboardTelemetryWrapper(FtcDashboard.getInstance());
         opMode.telemetry = new MultipleTelemetry(opMode.telemetry, this.dashboardTelemetry);
 
-        HardwareMap hardwareMap = opMode.hardwareMap;
-        this.drivetrain = new Drivetrain(hardwareMap);
-        this.lift = new Lift(hardwareMap, initial);
-        this.outWrist = new OutWrist(hardwareMap, initial);
-        this.outClaw = new OutClaw(hardwareMap, initial);
-        this.outShoulder = new OutShoulder(hardwareMap, initial);
-        this.extend = new Extendo(hardwareMap, initial);
-        this.inWrist = new InWrist(hardwareMap, initial);
-        this.inSwivel = new InSwivel(hardwareMap, initial);
-        this.inClaw = new InClaw(hardwareMap, initial);
-        this.dist = new DistanceSensors(hardwareMap);
-        this.imu = new Imu(hardwareMap);
+        RawHardware raw = new RawHardware(opMode.hardwareMap);
+        this.drivetrain = new Drivetrain(raw);
+        this.lift = new Lift(raw, initial);
+        this.outWrist = new OutWrist(raw, initial);
+        this.outClaw = new OutClaw(raw, initial);
+        this.outShoulder = new OutShoulder(raw, initial);
+        this.extend = new Extendo(raw, initial);
+        this.inWrist = new InWrist(raw, initial);
+        this.inSwivel = new InSwivel(raw, initial);
+        this.inClaw = new InClaw(raw, initial);
+        this.dist = new DistanceSensors(raw);
+        this.imu = new Imu(raw);
 
-        backOdo = new Encoder(lift.liftROdo());
-        rightOdo = new Encoder(lift.liftLOdo());
-
-        for (LynxModule hub : hardwareMap.getAll(LynxModule.class)) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
+        backOdo = new Encoder(raw.liftR2);
+        rightOdo = new Encoder(raw.liftL2);
     }
 }

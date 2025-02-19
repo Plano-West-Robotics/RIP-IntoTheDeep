@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -10,8 +9,8 @@ import org.firstinspires.ftc.teamcode.units.Angle;
 public class Imu {
     private final IMU inner;
 
-    public Imu(HardwareMap hardwareMap) {
-        this.inner = hardwareMap.get(IMU.class, "imu");
+    public Imu(RawHardware raw) {
+        this.inner = raw.imu;
         inner.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.LEFT,

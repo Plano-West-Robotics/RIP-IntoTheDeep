@@ -4,19 +4,18 @@ import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Lift {
     private final DcMotorEx liftL, liftR, liftL2, liftR2;
     private final RevTouchSensor limitL, limitR;
 
-    public Lift(HardwareMap hardwareMap, Hardware.InitialConfiguration _initial) {
-        this.liftL = hardwareMap.get(DcMotorEx.class, "liftL");
-        this.liftR = hardwareMap.get(DcMotorEx.class, "liftR");
-        this.liftL2 = hardwareMap.get(DcMotorEx.class, "liftL2");
-        this.liftR2 = hardwareMap.get(DcMotorEx.class, "liftR2");
-        this.limitL = hardwareMap.get(RevTouchSensor.class, "liftLimitL");
-        this.limitR = hardwareMap.get(RevTouchSensor.class, "liftLimitR");
+    public Lift(RawHardware raw, Hardware.InitialConfiguration _initial) {
+        this.liftL = raw.liftL;
+        this.liftR = raw.liftR;
+        this.liftL2 = raw.liftL2;
+        this.liftR2 = raw.liftR2;
+        this.limitL = raw.liftLimitL;
+        this.limitR = raw.liftLimitR;
 
         // N.B. never set to RUN_USING_ENCODER. please.
         liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -64,6 +63,4 @@ public class Lift {
     public int rightEncoder() {
         return liftR.getCurrentPosition();
     }
-    public DcMotor liftLOdo() { return liftL2; }
-    public DcMotor liftROdo() { return liftR2; }
 }

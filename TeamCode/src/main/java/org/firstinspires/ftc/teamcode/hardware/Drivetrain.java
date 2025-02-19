@@ -3,18 +3,17 @@ package org.firstinspires.ftc.teamcode.hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.units.Vector2;
 
 public class Drivetrain {
     private final DcMotorEx fl, fr, bl, br;
 
-    public Drivetrain(HardwareMap hardwareMap) {
-        this.fl = hardwareMap.get(DcMotorEx.class, "fl");
-        this.fr = hardwareMap.get(DcMotorEx.class, "fr");
-        this.bl = hardwareMap.get(DcMotorEx.class, "bl");
-        this.br = hardwareMap.get(DcMotorEx.class, "br");
+    public Drivetrain(RawHardware raw) {
+        this.fl = raw.fl;
+        this.fr = raw.fr;
+        this.bl = raw.bl;
+        this.br = raw.br;
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         fr.setDirection(DcMotorSimple.Direction.FORWARD);

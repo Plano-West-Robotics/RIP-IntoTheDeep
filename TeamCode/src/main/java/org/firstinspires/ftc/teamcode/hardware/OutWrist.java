@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import androidx.annotation.CheckResult;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutWrist extends TimedServo {
@@ -17,9 +14,9 @@ public class OutWrist extends TimedServo {
         }
     }
 
-    public OutWrist(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
+    public OutWrist(RawHardware raw, Hardware.InitialConfiguration initial) {
         // calibrated on 2024-02-13
-        // outWrist, port ch2
+        // outWrist
         // min: 0.25
         // chamber: 0.25
         // basket: 0.57
@@ -27,7 +24,7 @@ public class OutWrist extends TimedServo {
         // transfer: 0.91
         // max: 1.00
         super(
-                hardwareMap.get(Servo.class, "outWrist"),
+                raw.outWrist,
                 (0.75)/(0.72),
                 initial.branch(State.WALL.pos, State.TRANSFER.pos, State.CHAMBER.pos /* :/ */),
                 0.25, 1.00

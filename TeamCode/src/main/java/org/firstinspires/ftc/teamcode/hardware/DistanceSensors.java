@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.units.Angle;
@@ -16,9 +15,9 @@ public class DistanceSensors {
 
     private static final Distance DIST_BETWEEN_SENSORS = Distance.inInches(6 + 13/16.);
 
-    public DistanceSensors(HardwareMap hardwareMap) {
-        this.distL = hardwareMap.get(DistanceSensor.class, "distL");
-        this.distR = hardwareMap.get(DistanceSensor.class, "distR");
+    public DistanceSensors(RawHardware raw) {
+        this.distL = raw.distL;
+        this.distR = raw.distR;
     }
 
     public void doI2cRead() {

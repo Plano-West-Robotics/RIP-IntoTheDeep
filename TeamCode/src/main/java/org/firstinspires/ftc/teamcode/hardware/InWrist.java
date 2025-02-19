@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import androidx.annotation.CheckResult;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class InWrist extends TimedServo.Pair {
@@ -17,14 +14,14 @@ public class InWrist extends TimedServo.Pair {
         }
     }
 
-    public InWrist(HardwareMap hardwareMap, Hardware.InitialConfiguration initial) {
+    public InWrist(RawHardware raw, Hardware.InitialConfiguration initial) {
         // calibrated on 2024-02-13
         //           down - up
-        // inWristL  0.05 - 1.00, port eh2
-        // inWristR  0.95 - 0.00, port eh5
+        // inWristL  0.05 - 1.00
+        // inWristR  0.95 - 0.00
         super(
-                hardwareMap.get(Servo.class, "inWristL"),
-                hardwareMap.get(Servo.class, "inWristR"),
+                raw.inWristL,
+                raw.inWristR,
                 0.4/(0.40),
                 initial.branch(State.IN.pos, State.TRANSFER.pos, State.IN.pos),
                 0.05, 1.00,
