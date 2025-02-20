@@ -12,7 +12,6 @@ public class TeleRobot {
     private final Arm arm;
 
     private static final double EXTEND_THRESH = 0.1;
-    private static final int LIFT_HI_CHAMBER = 1001;
 
     private enum State {
         IDLE, // outtake @ wall, intake @ in, out claw open, in claw open
@@ -270,7 +269,7 @@ public class TeleRobot {
                     this.arm.toWall(); // opens the claw again
                 } else if (!this.arm.isBusy()) {
                     state = State.SPECIMEN_TO_HI_CHAMBER;
-                    this.lift.setTarget(lift.HIGH_CHAMBER);
+                    this.lift.setTarget(ControlledLift.HIGH_CHAMBER);
                     this.arm.toChamber();
                 }
                 break;
