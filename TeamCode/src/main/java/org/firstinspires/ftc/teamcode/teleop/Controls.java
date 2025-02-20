@@ -8,6 +8,7 @@ public class Controls {
     public static Gamepads.AnalogInput STRAFE = Gamepads.AnalogInput.GP1_LEFT_STICK_X;
     public static Gamepads.AnalogInput TURN = Gamepads.AnalogInput.GP1_RIGHT_STICK_X;
     public static Gamepads.Button SLOW_MODE = Gamepads.Button.GP1_RIGHT_TRIGGER;
+    public static Gamepads.Button MID_MODE = Gamepads.Button.GP1_LEFT_TRIGGER;
     public static Gamepads.Button YAW_RESET = Gamepads.Button.GP1_DPAD_UP;
     public static Gamepads.Button SPECIMEN_CYCLE = Gamepads.Button.GP1_SQUARE;
 

@@ -270,7 +270,7 @@ public class TeleRobot {
                     this.arm.toWall(); // opens the claw again
                 } else if (!this.arm.isBusy()) {
                     state = State.SPECIMEN_TO_HI_CHAMBER;
-                    this.lift.setTarget(LIFT_HI_CHAMBER);
+                    this.lift.setTarget(lift.HIGH_CHAMBER);
                     this.arm.toChamber();
                 }
                 break;

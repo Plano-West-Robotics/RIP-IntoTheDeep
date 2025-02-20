@@ -18,8 +18,9 @@ public class Teleop extends OpModeWrapper {
     TeleRobot robot;
     DeltaTimer time;
 
-    private static final double MID_SPEED = 0.7;
+    private static final double MID_SPEED = 0.5;
     private static final double LOW_SPEED = 0.3;
+    private static final double HI_SPEED = 1.0;
     private static final double DRIVER_2_STRAFE_SPEED = 0.5;
 
     @Override
@@ -40,9 +41,12 @@ public class Teleop extends OpModeWrapper {
         if (gamepads.isPressed(Controls.SLOW_MODE)) {
             drive.setSpeed(LOW_SPEED);
             telemetry.addData("Speed", "Slow");
-        } else {
+        } else if (gamepads.isPressed(Controls.MID_MODE)) {
             drive.setSpeed(MID_SPEED);
-            telemetry.addData("Speed", "Normal");
+            telemetry.addData("Speed", "Medium");
+        } else {
+            drive.setSpeed(HI_SPEED);
+            telemetry.addData("Speed", "High");
         }
 
         double x = gamepads.getAnalogValue(Controls.STRAIGHT);
