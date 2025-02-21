@@ -37,8 +37,8 @@ public class AutoLeft3Assisted extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(3)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(11)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -91,8 +91,8 @@ public class AutoLeft3Assisted extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -143,8 +143,8 @@ public class AutoLeft3Assisted extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -196,8 +196,8 @@ public class AutoLeft3Assisted extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
@@ -249,8 +249,8 @@ public class AutoLeft3Assisted extends AutoBase {
                         )
                 ),
                 poser.goTo(
-                        Distance.inTiles(-2.5).add(Distance.inInches(4)),
-                        Distance.inTiles(-2.5).add(Distance.inInches(12)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(1)),
+                        Distance.inTiles(-2.5).add(Distance.inInches(9)),
                         Angle.inDegrees(66)
                 )
         ).run();
