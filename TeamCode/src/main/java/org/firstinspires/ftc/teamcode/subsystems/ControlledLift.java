@@ -11,21 +11,19 @@ import org.firstinspires.ftc.teamcode.util.DeltaTimer;
 
 public class ControlledLift {
     public static final int MIN_TICKS = 0;
-    public static final int MAX_TICKS = 3000;
+    public static final int MAX_TICKS = 51000;
 
-    public static final int HIGH_CHAMBER = 1100;
-    public static final int LOW_BASKET = 900;
-    public static final int HIGH_BASKET = 2350;
-    public static final int LOW_RUNG = 1200;
-    public static final int HIGH_RUNG = 2500;
+    public static final int CHAMBER_BACK = 11000; // TOOD:
+    public static final int CHAMBER_FRONT = 11000;
+    public static final int BASKET_BACK = 51000;
+    public static final int BASKET_FRONT = 51000;
 
-    private static final double GRAVITY_FEEDFORWARD = 0.07;
-    private static final int DELTA = 200;
+    private static final double GRAVITY_FEEDFORWARD = 0.10;
+    private static final int DELTA = 2900;
 
     private final Lift inner;
     private int current;
-    private int leftEncoder;
-    private int rightEncoder;
+    private int encoder;
     private boolean downLastUpdate;
 
     private double power;
@@ -48,9 +46,8 @@ public class ControlledLift {
     public ControlledLift(Lift inner, int initial) {
         this.inner = inner;
         this.current = initial;
-        this.leftEncoder = this.inner.leftEncoder();
-        this.rightEncoder = this.inner.rightEncoder();
-        this.downLastUpdate = this.inner.isLeftDown() || this.inner.isRightDown();
+        this.encoder = this.inner.encoder();
+        this.downLastUpdate = this.inner.isDown();
 
         this.power = 0;
         this.override = false;
@@ -70,6 +67,10 @@ public class ControlledLift {
         this.target = target;
     }
 
+    public void clearTarget() {
+        this.isGoingToTarget = false;
+    }
+
     public Action goTo(int target) {
         return Sequence.of(
                 Action.fromFn(() -> this.setTarget(target)),
@@ -87,24 +88,21 @@ public class ControlledLift {
     }
 
     public void update(double dt) {
-        int newLeftEncoder = this.inner.leftEncoder();
-        int newRightEncoder = this.inner.rightEncoder();
-        int dl = newLeftEncoder - this.leftEncoder;
-        int dr = newRightEncoder - this.rightEncoder;
-        this.leftEncoder = newLeftEncoder;
-        this.rightEncoder = newRightEncoder;
+        int newEncoder = this.inner.encoder();
+        int dx = newEncoder - this.encoder;
+        this.encoder = newEncoder;
 
-        boolean down = this.inner.isLeftDown() || this.inner.isRightDown();
-        if (down && !this.downLastUpdate) this.current = MIN_TICKS + 20;
-        if (!down && this.downLastUpdate) this.current = MIN_TICKS + 30;
+        boolean down = this.inner.isDown();
+        if (down && !this.downLastUpdate) this.current = MIN_TICKS + 600;
+        if (!down && this.downLastUpdate) this.current = MIN_TICKS + 800;
         this.downLastUpdate = down;
 
-        this.current += (dl + dr) / 2;
+        this.current += dx;
         this.current = Math.max(this.current, 0);
         if (down) {
-            this.current = Math.min(this.current, 30);
+            this.current = Math.min(this.current, 800);
         } else {
-            this.current = Math.max(this.current, 30);
+            this.current = Math.max(this.current, 800);
         }
 
         double outPower;
@@ -116,10 +114,11 @@ public class ControlledLift {
                 int error = target - this.current;
                 outPower = sigmoidCtrl(error);
                 if (this.target == MIN_TICKS) {
-                    outPower = Math.min(outPower, -0.32);
+                    outPower = Math.min(outPower, -0.45);
+                    if (this.current <= 3000 && !down) outPower = -1;
                 }
 
-                if (Math.abs(error) <= 10 || (target <= 30 && down)) { // TODO: 1. 10 => 15 and 2. second condition is hacky
+                if (Math.abs(error) <= 250 || (target <= 800 && down)) { // TODO: second condition is hacky
                     isGoingToTarget = false;
                     outPower = power;
                 }
@@ -130,8 +129,9 @@ public class ControlledLift {
                         sigmoidCtrl(MAX_TICKS - this.current)
                 );
 
-                if (power <= 0.0 && this.current <= 30) {
-                    outPower = Math.min(outPower, -0.32);
+                if (power <= 0.0 && this.current <= 3000) {
+                    if (!down) outPower = -1;
+                    else outPower = Math.min(outPower, -0.3);
                 }
             }
         }

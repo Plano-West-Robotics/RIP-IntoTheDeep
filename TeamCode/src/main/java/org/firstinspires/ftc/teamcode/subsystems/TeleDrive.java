@@ -48,7 +48,7 @@ public class TeleDrive {
      * @param turn ccw is positive
      */
     public void drive(double x, double y, double turn) {
-        drive.drive(new Vector2(x, y), turn);
+        this.drive(new Vector2(x, y), turn);
     }
 
     /**
@@ -76,7 +76,7 @@ public class TeleDrive {
 
         double localTurn;
         if (turnAssistTime == 0.0) {
-            localTurn = Math.tanh(targetYaw.sub(currYaw).modSigned().div(Angle.inDegrees(25)));
+            localTurn = Math.tanh(targetYaw.sub(currYaw).modSigned().div(Angle.inDegrees(40)));
         } else {
             localTurn = turn * speed;
             targetYaw = currYaw;

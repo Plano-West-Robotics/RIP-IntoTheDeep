@@ -83,8 +83,8 @@ public class TimedServo {
     }
 
     public static class Pair {
-        private final Servo left, right;
-        private final ServoTimer timer;
+        protected final Servo left, right;
+        protected final ServoTimer timer;
 
         public Pair(
                 Servo left,
@@ -139,6 +139,26 @@ public class TimedServo {
 
         public boolean isBusy() {
             return this.timer.isBusy();
+        }
+    }
+
+    public static class MurphyHelpUs extends TimedServo.Pair {
+        public MurphyHelpUs(Servo left, Servo right, ServoBrand kind, double initial, double minL, double maxL, double minR, double maxR) {
+            super(left, right, kind, initial, minL, maxL, minR, maxR);
+        }
+
+        public MurphyHelpUs(Servo left, Servo right, double rate, double initial, double minL, double maxL, double minR, double maxR) {
+            super(left, right, rate, initial, minL, maxL, minR, maxR);
+        }
+
+        public void setPosition(double pos) {
+            this.timer.setTarget(pos);
+        }
+
+        public void update(double dt) {
+            this.timer.update(dt);
+            this.left.setPosition(this.timer.getCurrent());
+            this.right.setPosition(this.timer.getCurrent());
         }
     }
 }

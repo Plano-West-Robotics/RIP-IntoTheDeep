@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.ValueProvider;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.ServoConfigurationType;
@@ -21,6 +22,7 @@ public class DashboardServoByPortTuner extends OpMode {
             
             for (int i = 0; i < 6; i++) {
                 ServoImplEx s = new ServoImplEx(sc, i, ServoConfigurationType.getStandardServoType());
+                s.setPwmRange(new PwmControl.PwmRange(500, 2500));
                 String name = scName + " Port " + i;
 
                 db.addConfigVariable(this.getClass().getSimpleName(), name, new ValueProvider<String>() {

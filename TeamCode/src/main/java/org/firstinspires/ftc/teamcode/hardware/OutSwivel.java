@@ -5,22 +5,23 @@ import androidx.annotation.CheckResult;
 import org.firstinspires.ftc.teamcode.macro.Action;
 import org.firstinspires.ftc.teamcode.units.Angle;
 
-public class InSwivel extends TimedServo {
+public class OutSwivel extends TimedServo {
     public static final double LEFT = 2/3.;
     public static final double MIDDLE = 1/3.;
     public static final double RIGHT = 0;
-    public static final double TRANSFER = 1;
+    public static final double FRONT = 1;
+    public static final double BACK = MIDDLE;
 
-    public InSwivel(RawHardware raw, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-04-22
-        // inSwivel
-        // right: 0.98
-        // in: 0.05
+    public OutSwivel(RawHardware raw, Hardware.InitialConfiguration initial) {
+        // calibrated on 2024-05-01
+        // outSwivel
+        // right: 0.00
+        // front: 0.94
         super(
-                raw.inSwivel,
+                raw.outSwivel,
                 1/(0.50), // TODO:
-                initial.branch(TRANSFER, TRANSFER, TRANSFER),
-                0.98, 0.05
+                initial.branch(FRONT, FRONT, FRONT),
+                0.00, 0.94
         );
     }
 

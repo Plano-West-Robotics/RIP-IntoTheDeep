@@ -14,8 +14,10 @@ public class Hardware {
     public final Drivetrain drivetrain;
 
     public final Lift lift;
+    public final LiftPivot pivot;
     public final OutWrist outWrist;
     public final OutClaw outClaw;
+    public final OutSwivel outSwivel;
     public final OutShoulder outShoulder;
 
     public final Extendo extend;
@@ -23,9 +25,8 @@ public class Hardware {
     public final InSwivel inSwivel;
     public final InClaw inClaw;
 
-    public final DistanceSensors dist;
+    public final Odometry odo;
     public final Imu imu;
-    public final Encoder backOdo, rightOdo;
 
     public final OpMode opMode;
     public final DashboardTelemetryWrapper dashboardTelemetry;
@@ -56,17 +57,16 @@ public class Hardware {
         RawHardware raw = new RawHardware(opMode.hardwareMap);
         this.drivetrain = new Drivetrain(raw);
         this.lift = new Lift(raw, initial);
+        this.pivot = new LiftPivot(raw, initial);
         this.outWrist = new OutWrist(raw, initial);
         this.outClaw = new OutClaw(raw, initial);
+        this.outSwivel = new OutSwivel(raw, initial);
         this.outShoulder = new OutShoulder(raw, initial);
         this.extend = new Extendo(raw, initial);
         this.inWrist = new InWrist(raw, initial);
         this.inSwivel = new InSwivel(raw, initial);
         this.inClaw = new InClaw(raw, initial);
-        this.dist = new DistanceSensors(raw);
+        this.odo = new Odometry(raw);
         this.imu = new Imu(raw);
-
-        backOdo = new Encoder(raw.liftR2);
-        rightOdo = new Encoder(raw.liftL2);
     }
 }

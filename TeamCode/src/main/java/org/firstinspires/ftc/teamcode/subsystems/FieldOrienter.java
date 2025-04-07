@@ -47,4 +47,8 @@ public class FieldOrienter {
     public Angle robotToField(Angle v) {
         return v.add(currentYaw.sub(offset));
     }
+
+    public boolean facingPosY() {
+        return this.currentYaw.modSigned().abs().valInDegrees() < 90;
+    }
 }

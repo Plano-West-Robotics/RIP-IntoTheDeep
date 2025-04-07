@@ -4,8 +4,9 @@
 //
 //import org.firstinspires.ftc.teamcode.hardware.Extendo;
 //import org.firstinspires.ftc.teamcode.hardware.Hardware;
+//import org.firstinspires.ftc.teamcode.state.StateMachine;
 //
-//public class TeleRobot {
+//public class TeleRobot2 {
 //    private final Extendo extend;
 //    private final Grabber grabber;
 //    private final ControlledLift lift;
@@ -44,7 +45,7 @@
 //    private boolean specimenCycleButton;
 //    private boolean halfSequenceMode;
 //
-//    public TeleRobot(Hardware hardware) {
+//    public TeleRobot2(Hardware hardware) {
 //        this(
 //                hardware.extend,
 //                new Grabber(hardware, Hardware.InitialConfiguration.TELEOP),
@@ -54,7 +55,7 @@
 //        );
 //    }
 //
-//    public TeleRobot(Extendo extend, Grabber grabber, ControlledLift lift, PivotControl pivot, Arm arm) {
+//    public TeleRobot2(Extendo extend, Grabber grabber, ControlledLift lift, PivotControl pivot, Arm arm) {
 //        this.extend = extend;
 //        this.grabber = grabber;
 //        this.lift = lift;
@@ -127,7 +128,52 @@
 //        this.arm.toPreTransfer();
 //    }
 //
+//    private boolean isBusy() {
+//        return this.extend.isBusy() || this.grabber.isBusy() || this.lift.isBusy() || this.arm.isBusy();
+//    }
+//
 //    public void update(double dt) {
+//        StateMachine<State> fsm = StateMachine.builder(State.class)
+//                .addState(State.IDLE, builder -> builder
+//                        .onUpdate(ctx -> {
+//                            if (extendTrigger) {
+//                                extendPos = Extendo.OUT_GRABBER_UP;
+//                                grabberDown = false;
+//                                ctx.changeState(State.SAMPLE_PICKUP);
+//                            }
+//                            if (specimenCycleButton) ctx.changeState(State.SPECIMEN_GRAB);
+//                        })
+//                )
+//                .addState(State.SAMPLE_PICKUP, builder -> builder
+//                        .onStart(() -> {
+//                            this.extend.setPosition(extendPos);
+//                            if (grabberDown) this.grabber.toDown();
+//                            else this.grabber.toUp();
+//                            this.arm.toPreTransfer();
+//                        })
+//                        .onUpdate(_ctx -> {
+//                            extendPos += 1.0 * dt * slidePow;
+//                            extendPos = Range.clip(
+//                                    extendPos,
+//                                    EXTEND_THRESH,
+//                                    this.grabber.isDefinitelyDown() ? Extendo.OUT_GRABBER_DOWN : Extendo.OUT_GRABBER_UP
+//                            );
+//                            this.extend.setPosition(extendPos);
+//                        })
+//                        .onUpdate(ctx -> {
+//                            if (!extendTrigger) ctx.changeState(State.SAMPLE_TO_TRANSFER);
+//                        })
+//                )
+//                .addState(State.SAMPLE_TO_TRANSFER, builder -> builder
+//                        .onUpdate(ctx -> {
+//                            if (sampleDropButton) ctx.changeState(State.SAMPLE_RETRACT_CANCEL);
+//                            if (extendTrigger) ctx.changeState(State.SAMPLE_PICKUP); // done
+//                            if (halfSequenceMode) ctx.changeState(State.SAMPLE_TRANSFER_HOLD);
+//                            if (!isBusy()) ctx.changeState(State.SAMPLE_TRANSFER_1);
+//                        })
+//                )
+//                .finishAndBegin(State.IDLE);
+//
 //        switch (state) {
 //            case IDLE:
 //                if (extendTrigger) {

@@ -13,7 +13,7 @@ public class ExtendoTest extends OpModeWrapper {
     public int inches = 0;
 
     public void setup() {
-        hardware.outShoulder.setPosition(OutShoulder.State.PRE_TRANSFER);
+//        hardware.outShoulder.setPosition(OutShoulder.State.PRE_TRANSFER);
         hardware.inWrist.setPosition(InWrist.State.DOWN);
     }
 

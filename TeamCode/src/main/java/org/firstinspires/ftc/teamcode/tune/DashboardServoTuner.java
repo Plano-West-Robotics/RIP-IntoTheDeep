@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.ValueProvider;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
@@ -16,6 +17,7 @@ public class DashboardServoTuner extends OpMode {
         for (ServoImplEx s : hardwareMap.getAll(ServoImplEx.class)) {
             s.scaleRange(0, 1);
             s.setDirection(Servo.Direction.FORWARD);
+            s.setPwmRange(new PwmControl.PwmRange(500, 2500));
             String name = hardwareMap.getNamesOf(s).iterator().next();
             if (name == null) continue;
 

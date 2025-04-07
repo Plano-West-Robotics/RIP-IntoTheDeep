@@ -5,23 +5,23 @@ import androidx.annotation.CheckResult;
 import org.firstinspires.ftc.teamcode.macro.Action;
 import org.firstinspires.ftc.teamcode.units.Distance;
 
-public class Extendo extends TimedServo.Pair {
+public class Extendo extends TimedServo.MurphyHelpUs {
     public static final double IN = 0.0;
-    public static final double OUT_GRABBER_UP = 0.74; // horizontal expansion limit
+    public static final double OUT_GRABBER_UP = 0.74; // horizontal expansion limit // TODO:
     public static final double OUT_GRABBER_DOWN = 1.0;
 
     public Extendo(RawHardware raw, Hardware.InitialConfiguration _initial) {
-        // calibrated on 2024-02-18
+        // calibrated on 2024-04-22
         //            in - out
-        // extendL  0.05 - 0.82
-        // extendR  0.95 - 0.18
+        // extendL  0.88 - 0.18
+        // extendR  0.12 - 0.82
         super(
                 raw.extendL,
                 raw.extendR,
-                1.0, // TODO:
+                (0.88-0.18)/1.0, // TODO:
                 0.0,
-                0.00, 0.82,
-                1.00, 0.18
+                0.88, 0.18,
+                0.12, 0.82
         );
     }
 

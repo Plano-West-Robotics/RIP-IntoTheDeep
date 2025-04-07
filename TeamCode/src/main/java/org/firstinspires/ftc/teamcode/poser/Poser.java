@@ -132,9 +132,9 @@ public class Poser {
     public class Motion implements Action {
         private static final double TIME_LIMIT = 1;
 
-        protected final PIDController xCtrl = new PIDController(2.5, 0, 0.25);
-        protected final PIDController yCtrl = new PIDController(2.5, 0, 0.25);
-        protected final PIDController yawCtrl = new PIDController(1.5, 0, 0.15);
+        protected final PIDController xCtrl = new PIDController(3.5, 0, 0.25);
+        protected final PIDController yCtrl = new PIDController(3.5, 0, 0.25);
+        protected final PIDController yawCtrl = new PIDController(3.5, 0, 0.15);
         protected Pose target;
         private RotationDirection rotationDirection;
         private boolean stuckCheckEnabled;
@@ -211,7 +211,8 @@ public class Poser {
             Angle targetAngVel = yawCtrl.update(angError);
 
             Vector2 pow = targetVel.div(MAX_VEL);
-            pow = pow.normalized().mul(Range.clip(pow.magnitude(), 0, 1) * poser.speed);
+//            pow = pow.normalized().mul(Range.clip(pow.magnitude(), 0, 1) * poser.speed);
+            pow = pow.normalized().mul(Range.clip(pow.magnitude() + 0.05, 0, 1) * poser.speed);
             pow = pow.rot(targetAngVel.mul(dt).div(2).neg()); // "reverse pose exp"
             double angPow = targetAngVel.div(MAX_ANG_VEL);
             angPow = Range.clip(angPow, -1, 1) * poser.speed;

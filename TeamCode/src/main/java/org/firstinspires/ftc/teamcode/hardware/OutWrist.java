@@ -6,7 +6,17 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class OutWrist extends TimedServo {
     public enum State {
-        TRANSFER(0.88), BASKET(0.43), WALL(0.49), CHAMBER(0.08);
+        PRE_TRANSFER(0.96),
+        TRANSFER(0.86),
+        DROP_FRONT(0.38),
+        DROP_BACK(0.37),
+        BASKET_FRONT(0.7),
+        BASKET_BACK(0.44),
+        WALL_FRONT(0.38),
+        WALL_BACK(0.6),
+        CHAMBER_FRONT(0.04),
+        CHAMBER_BACK(0.92),
+        ;
 
         public final double pos;
         State(double pos) {
@@ -15,19 +25,15 @@ public class OutWrist extends TimedServo {
     }
 
     public OutWrist(RawHardware raw, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-02-13
+        // calibrated on 2024-05-01
         // outWrist
-        // min: 0.25
-        // chamber: 0.31
-        // basket: 0.57
-        // wall: 0.62
-        // transfer: 0.91
-        // max: 1.00
+        // out: 0.02
+        // in: 0.93
         super(
                 raw.outWrist,
-                (0.75)/(0.72),
-                initial.branch(State.WALL.pos, State.TRANSFER.pos, State.CHAMBER.pos /* :/ */),
-                0.25, 1.00
+                (0.75)/(0.72), // TODO:
+                initial.branch(State.WALL_FRONT.pos, State.TRANSFER.pos, State.TRANSFER.pos),
+                0.02, 0.93
         );
     }
 

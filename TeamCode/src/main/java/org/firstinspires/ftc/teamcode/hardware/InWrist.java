@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.macro.Action;
 
 public class InWrist extends TimedServo.Pair {
     public enum State {
-        IN(1.0), TRANSFER(0.79), UP(0.42), DOWN(0.0);
+        IN(1.0), TRANSFER(0.84), UP(0.39), DOWN(0.0);
 
         public final double pos;
         State(double pos) {
@@ -15,17 +15,18 @@ public class InWrist extends TimedServo.Pair {
     }
 
     public InWrist(RawHardware raw, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-02-13
-        //           down - up
-        // inWristL  0.05 - 1.00
-        // inWristR  0.95 - 0.00
+        // calibrated on 2024-04-22
+        //          inWristL/inWristR
+        // down:        0.04/0.90
+        // up:          0.35/0.59
+        // in:          0.84/0.10
         super(
                 raw.inWristL,
                 raw.inWristR,
-                0.4/(0.40),
-                initial.branch(State.IN.pos, State.TRANSFER.pos, State.IN.pos),
-                0.05, 1.00,
-                0.95, 0.00
+                0.4/(0.40), // TODO:
+                initial.branch(State.IN.pos, State.IN.pos, State.IN.pos),
+                0.04, 0.84,
+                0.90, 0.10
         );
     }
 

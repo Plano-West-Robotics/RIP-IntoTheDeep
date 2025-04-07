@@ -9,13 +9,13 @@ public class InClaw extends TimedServo {
     public static final double CLOSED = 0.0;
 
     public InClaw(RawHardware raw, Hardware.InitialConfiguration initial) {
-        // calibrated on 2024-02-13
-        // inClaw: closed 0.31 - open 0.60
+        // calibrated on 2024-05-10
+        // inClaw: closed 0.65 - open 0.95
         super(
                 raw.inClaw,
-                0.29/(0.19),
+                0.29/(0.19), // TODO:
                 initial.branch(OPEN, OPEN, OPEN),
-                0.31, 0.60
+                0.65, 0.95
         );
     }
 

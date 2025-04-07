@@ -17,14 +17,7 @@ public abstract class AutoBase extends LinearOpMode {
         LEFT, RIGHT
     }
 
-    public void setup(LeftOrRight location, boolean withPreload) {
-        this.hardware = new Hardware(
-                this,
-                withPreload ? Hardware.InitialConfiguration.AUTO_PRELOAD : Hardware.InitialConfiguration.AUTO
-        );
-
-        // starting pose calculations
-
+    public static Pose computeInitialPose(LeftOrRight location, boolean withPreload) {
         // starting tile
         double startingX = 0;
         switch (location) {
@@ -56,7 +49,16 @@ public abstract class AutoBase extends LinearOpMode {
             initialPose = initialPose.then(new Pose(Distance2.ZERO, Angle.BACKWARD));
         }
 
-        this.poser = new Poser(hardware, 1.0, false, initialPose);
+        return initialPose;
+    }
+
+    public void setup(LeftOrRight location, boolean withPreload) {
+        this.hardware = new Hardware(
+                this,
+                withPreload ? Hardware.InitialConfiguration.AUTO_PRELOAD : Hardware.InitialConfiguration.AUTO
+        );
+
+        this.poser = new Poser(hardware, 1.0, false, computeInitialPose(location, withPreload));
     }
 
     public void waitForStartWithClaw() {

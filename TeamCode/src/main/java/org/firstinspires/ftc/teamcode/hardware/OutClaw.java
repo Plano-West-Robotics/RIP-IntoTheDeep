@@ -9,13 +9,13 @@ public class OutClaw extends TimedServo {
     public static final double CLOSED = 1.0;
 
     public OutClaw(RawHardware raw, Hardware.InitialConfiguration initial) {
-        // calibrated on 2025-02-19
-        // outClaw: open 0.65 - closed 0.98
+        // calibrated on 2025-04-22
+        // outClaw: open 0.00 - closed 0.38
         super(
                 raw.outClaw,
-                (0.33)/(0.33),
+                (0.33)/(0.33), // TODO:
                 initial.branch(OPEN, OPEN, CLOSED),
-                0.33, 0.66
+                0.00, 0.38
         );
     }
 
